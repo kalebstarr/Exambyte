@@ -8,6 +8,10 @@ body {
   flex-direction: column;
 }
 
+header {
+  margin: 2rem 0;
+}
+
 main {
   flex: 1;
 }
