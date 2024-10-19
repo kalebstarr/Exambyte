@@ -32,7 +32,7 @@ public class AdminControllerTests {
   @DisplayName("Index page has correct title")
   void test_02() throws Exception {
     this.mockMvc.perform(get("/admin")).
-        andExpect(model().attribute("title", equalTo("Admin")));
+        andExpect(model().attribute("title", equalTo("Exambyte - Admin")));
   }
 
 }

@@ -32,7 +32,7 @@ public class UserControllerTests {
   @DisplayName("Index page has correct title")
   void test_02() throws Exception {
     this.mockMvc.perform(get("/")).
-        andExpect(model().attribute("title", equalTo("Home")));
+        andExpect(model().attribute("title", equalTo("Exambyte - Home")));
   }
 
 }

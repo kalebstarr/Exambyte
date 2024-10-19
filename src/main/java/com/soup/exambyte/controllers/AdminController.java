@@ -18,7 +18,7 @@ public class AdminController {
    */
   @GetMapping("/admin")
   public String admin(Model model) {
-    model.addAttribute("title", "Admin");
+    model.addAttribute("title", "Exambyte - Admin");
     return "index";
   }
 }

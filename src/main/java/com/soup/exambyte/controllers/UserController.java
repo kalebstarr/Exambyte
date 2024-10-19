@@ -18,7 +18,7 @@ public class UserController {
    */
   @GetMapping("/")
   public String index(Model model) {
-    model.addAttribute("title", "Home");
+    model.addAttribute("title", "Exambyte - Home");
     return "index";
   }
 }
