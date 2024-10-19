@@ -21,4 +21,15 @@ public class UserController {
     model.addAttribute("title", "Exambyte - Home");
     return "index";
   }
+
+  /**
+   * Handles requests for tests ("/tests").
+
+   * @return test.html template.
+   */
+  @GetMapping("/test")
+  public String test(Model model) {
+    model.addAttribute("title", "Exambyte - Test");
+    return "test";
+  }
 }

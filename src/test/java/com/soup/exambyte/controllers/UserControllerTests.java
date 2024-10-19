@@ -35,4 +35,18 @@ public class UserControllerTests {
         andExpect(model().attribute("title", equalTo("Exambyte - Home")));
   }
 
+  @Test
+  @DisplayName("Test page loads")
+  void test_03() throws Exception {
+    this.mockMvc.perform(get("/test")).
+        andDo(print()).
+        andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("Test page has correct title")
+  void test_04() throws Exception {
+    this.mockMvc.perform(get("/test")).
+        andExpect(model().attribute("title", equalTo("Exambyte - Test")));
+  }
 }
