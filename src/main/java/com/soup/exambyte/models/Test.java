@@ -33,4 +33,8 @@ public class Test {
   public List<Question> getQuestions() {
     return questions;
   }
+
+  public void addQuestion(Question question) {
+    questions.add(question);
+  }
 }
