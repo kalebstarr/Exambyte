@@ -4,15 +4,18 @@
     <th:block th:insert="~{fragments :: head}" />
   </head>
   <body>
-    <th:block th:insert="~{fragments :: navigation}"></th:block>
-    <header class="container">
-      <h1 th:text="${title}">Sample header</h1>
+    <th:block th:insert="~{fragments :: navigation}" />
+
+    <header>
+      <div class="container">
+        <h1 th:text="${title}">Sample header</h1>
+      </div>
     </header>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+    <main></main>
+
+    <th:block th:insert="~{fragments :: footer}" />
+
+    <th:block th:insert="~{fragments :: bootstrap-script}" />
   </body>
 </html>
