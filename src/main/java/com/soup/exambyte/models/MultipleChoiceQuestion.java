@@ -1,30 +1,21 @@
 package com.soup.exambyte.models;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MultipleChoiceQuestion extends Question{
 
-  private List<String> options;
-  private int correctIndex;
+  private final Map<String, Boolean> options = new HashMap<>();
 
-  public MultipleChoiceQuestion(String questionTitle, String questionDescription, int correctIndex) {
+  public MultipleChoiceQuestion(String questionTitle, String questionDescription) {
     super(questionTitle, questionDescription);
-    this.correctIndex = correctIndex;
   }
 
-  public List<String> getOptions() {
+  public Map<String, Boolean> getOptions() {
     return options;
   }
 
-  public void addOptions(String option) {
-    options.add(option);
-  }
-
-  public int getCorrectIndex() {
-    return correctIndex;
-  }
-
-  public void setCorrectIndex(int correctIndex) {
-    this.correctIndex = correctIndex;
+  public void addOptions(String option, boolean correct) {
+    options.put(option, correct);
   }
 }
