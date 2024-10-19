@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 /**
- * Controller for user requests.
+ * Controller for admin requests.
  */
 @Controller
-public class UserController {
+public class AdminController {
 
   /**
-   * Handles requests for root URL ("/").
+   * Handles requests for default admin URL ("/admin").
 
    * @return index.html template with custom title attribute.
    */
-  @GetMapping("/")
-  public String index(Model model) {
-    model.addAttribute("title", "Home");
+  @GetMapping("/admin")
+  public String admin(Model model) {
+    model.addAttribute("title", "Admin");
     return "index";
   }
 }
