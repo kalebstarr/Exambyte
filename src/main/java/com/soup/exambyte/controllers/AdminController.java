@@ -16,6 +16,7 @@ public class AdminController {
 
    * @return index.html template with custom title attribute.
    */
+  // TODO: Determine if this mapping is actually needed as it duplicates index() in UserController.
   @GetMapping("/admin")
   public String admin(Model model) {
     model.addAttribute("title", "Exambyte - Admin");
