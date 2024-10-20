@@ -14,7 +14,8 @@ public class AdminController {
   /**
    * Handles requests for default admin URL ("/admin").
 
-   * @return index.html template with custom title attribute.
+   * @param model The Spring model.
+   * @return      Returns the "index" template.
    */
   // TODO: Determine if this mapping is actually needed as it duplicates index() in UserController.
   @GetMapping("/admin")

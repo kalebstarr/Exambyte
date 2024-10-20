@@ -14,7 +14,8 @@ public class UserController {
   /**
    * Handles requests for root URL ("/").
 
-   * @return index.html template with custom title attribute.
+   * @param model The Spring model.
+   * @return      Return the "index" template.
    */
   @GetMapping("/")
   public String index(Model model) {
@@ -25,7 +26,8 @@ public class UserController {
   /**
    * Handles requests for tests ("/tests").
 
-   * @return test.html template.
+   * @param model The Spring model.
+   * @return      Returns the "test" template.
    */
   @GetMapping("/test")
   public String test(Model model) {
