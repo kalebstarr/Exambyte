@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
-<th:block th:insert="~{fragments :: head}" />
-<body>
-<th:block th:insert="~{fragments :: navigation}" />
+  <th:block th:insert="~{fragments :: head}" />
+  <body>
+    <th:block th:insert="~{fragments :: navigation}" />
 
-<header>
-  <div class="container">
-    <h1>Sample Test</h1>
-  </div>
-</header>
+    <header>
+      <div class="container">
+        <h1>Sample Test</h1>
+      </div>
+    </header>
 
-<main>
-  <div class="container">
-    <div class="row">
-      <h2>This is a sample description for a Test</h2>
-    </div>
-  </div>
-</main>
+    <main>
+      <div class="container">
+        <div class="row">
+          <h2>This is a sample description for a Test</h2>
+        </div>
+      </div>
+    </main>
 
-<th:block th:insert="~{fragments :: footer}" />
+    <th:block th:insert="~{fragments :: footer}" />
 
-<th:block th:insert="~{fragments :: bootstrap-script}" />
-</body>
+    <th:block th:insert="~{fragments :: bootstrap-script}" />
+  </body>
 </html>
