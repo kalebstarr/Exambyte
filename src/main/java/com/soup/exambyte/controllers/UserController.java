@@ -34,4 +34,16 @@ public class UserController {
     model.addAttribute("title", "Exambyte - Test");
     return "test";
   }
+
+  /**
+   * Handles requests for specific questions within a test.
+
+   * @param model The Spring model.
+   * @return      Returns the "question" template.
+   */
+  @GetMapping("/test/{testNumber}/question/{questionNumber}")
+  public String question(Model model) {
+    model.addAttribute("title", "Exambyte - Question");
+    return "question";
+  }
 }
