@@ -19,7 +19,7 @@ public class AdminController {
    */
   // TODO: Determine if this mapping is actually needed as it duplicates index() in UserController.
   @GetMapping("/admin")
-  public String admin(Model model) {
+  public String adminView(Model model) {
     model.addAttribute("title", "Exambyte - Admin");
     return "index";
   }

@@ -18,7 +18,7 @@ public class UserController {
    * @return      Return the "index" template.
    */
   @GetMapping("/")
-  public String index(Model model) {
+  public String indexView(Model model) {
     model.addAttribute("title", "Exambyte - Home");
     return "index";
   }
@@ -30,7 +30,7 @@ public class UserController {
    * @return      Returns the "test" template.
    */
   @GetMapping("/test")
-  public String test(Model model) {
+  public String testView(Model model) {
     model.addAttribute("title", "Exambyte - Test");
     return "test";
   }
@@ -42,7 +42,7 @@ public class UserController {
    * @return      Returns the "question" template.
    */
   @GetMapping("/test/{testNumber}/question/{questionNumber}")
-  public String question(Model model) {
+  public String questionView(Model model) {
     model.addAttribute("title", "Exambyte - Question");
     return "question";
   }
