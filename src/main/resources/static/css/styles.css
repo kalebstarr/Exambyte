@@ -8,6 +8,10 @@ body {
   flex-direction: column;
 }
 
+.navbar-brand {
+  color: #29E01F;
+}
+
 header {
   margin: 2rem 0;
 }
