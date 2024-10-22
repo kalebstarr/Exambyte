@@ -3,6 +3,7 @@ package com.soup.exambyte.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 /**
@@ -29,8 +30,9 @@ public class UserController {
    * @param model The Spring model.
    * @return      Returns the "test" template.
    */
-  @GetMapping("/test")
-  public String testView(Model model) {
+  @GetMapping("/test/{testNumber}")
+  public String testView(Model model,
+      @PathVariable(value = "testNumber") int testNumber) {
     model.addAttribute("title", "Exambyte - Test");
     return "test";
   }
@@ -42,7 +44,9 @@ public class UserController {
    * @return      Returns the "question" template.
    */
   @GetMapping("/test/{testNumber}/question/{questionNumber}")
-  public String questionView(Model model) {
+  public String questionView(Model model,
+      @PathVariable(value = "testNumber") int testNumber,
+      @PathVariable(value = "questionNumber") int questionNumber) {
     model.addAttribute("title", "Exambyte - Question");
     return "question";
   }
