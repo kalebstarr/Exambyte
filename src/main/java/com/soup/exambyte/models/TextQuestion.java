@@ -2,10 +2,11 @@ package com.soup.exambyte.models;
 
 
 /**
- * Model for a text question variation of the question object.
+ * Text based variation of a question.
  */
-public class TextQuestion extends Question {
+public class TextQuestion implements Question {
 
+  private final QuestionDetails questionDetails;
   private String answer = "";
 
   /**
@@ -15,7 +16,11 @@ public class TextQuestion extends Question {
    * @param questionDescription The description of a multiple choice question.
    */
   public TextQuestion(String questionTitle, String questionDescription) {
-    super(questionTitle, questionDescription);
+    this.questionDetails = new QuestionDetails(questionTitle, questionDescription);
+  }
+
+  public QuestionDetails getQuestionDetails() {
+    return questionDetails;
   }
 
   public String getAnswer() {

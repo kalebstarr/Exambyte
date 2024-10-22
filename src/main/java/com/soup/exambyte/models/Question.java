@@ -1,38 +1,14 @@
 package com.soup.exambyte.models;
 
-
 /**
- * Model for a question object.
+ * Simple interface for a Question.
  */
-public class Question {
-
-  private String questionTitle;
-  private String questionDescription;
+public interface Question {
 
   /**
-   * Constructor for a Question object with questionTitle and questionDescription.
+   * Getter for QuestionDetails within a given Question variation.
 
-   * @param questionTitle       The title of the question.
-   * @param questionDescription The description of a question.
+   * @return QuestionDetails object.
    */
-  public Question(String questionTitle, String questionDescription) {
-    this.questionTitle = questionTitle;
-    this.questionDescription = questionDescription;
-  }
-
-  public String getQuestionTitle() {
-    return questionTitle;
-  }
-
-  public void setQuestionTitle(String questionTitle) {
-    this.questionTitle = questionTitle;
-  }
-
-  public String getQuestionDescription() {
-    return questionDescription;
-  }
-
-  public void setQuestionDescription(String questionDescription) {
-    this.questionDescription = questionDescription;
-  }
+  QuestionDetails getQuestionDetails();
 }

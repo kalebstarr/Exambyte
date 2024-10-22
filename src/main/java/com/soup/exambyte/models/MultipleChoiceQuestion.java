@@ -5,10 +5,11 @@ import java.util.Map;
 
 
 /**
- * Model for a multiple choice variation of the question object.
+ * Multiple choice variation of a question.
  */
-public class MultipleChoiceQuestion extends Question {
+public class MultipleChoiceQuestion implements Question {
 
+  private final QuestionDetails questionDetails;
   private final Map<String, Boolean> options = new HashMap<>();
 
   /**
@@ -18,7 +19,11 @@ public class MultipleChoiceQuestion extends Question {
    * @param questionDescription The description of a multiple choice question.
    */
   public MultipleChoiceQuestion(String questionTitle, String questionDescription) {
-    super(questionTitle, questionDescription);
+    this.questionDetails = new QuestionDetails(questionTitle, questionDescription);
+  }
+
+  public QuestionDetails getQuestionDetails() {
+    return questionDetails;
   }
 
   public Map<String, Boolean> getOptions() {
