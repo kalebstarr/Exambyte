@@ -1,3 +1,8 @@
 spring:
   application:
     name: Exambyte
+
+server:
+  error:
+    whitelabel:
+      enabled: false
