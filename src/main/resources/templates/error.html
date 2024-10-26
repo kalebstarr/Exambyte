@@ -20,6 +20,9 @@
         <div th:case="500">
           <th:block th:insert="~{fragments :: error-500}"></th:block>
         </div>
+        <div th:case="*">
+          <h2 th:text="'Error: ' + ${error}">Error Placeholder</h2>
+        </div>
       </div>
     </div>
   </div>

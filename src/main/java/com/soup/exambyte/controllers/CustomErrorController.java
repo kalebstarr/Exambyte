@@ -27,6 +27,9 @@ public class CustomErrorController implements ErrorController {
       else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
         model.addAttribute("error", HttpStatus.INTERNAL_SERVER_ERROR.value());
       }
+      else {
+        model.addAttribute("error", statusCode);
+      }
     }
 
     return "error";
