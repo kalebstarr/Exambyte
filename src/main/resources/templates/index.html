@@ -12,14 +12,14 @@
 
     <main>
       <div class="container">
-        <div class="row">
+        <div class="row" th:each="test : ${tests}">
           <div class="d-grid gap-2 mx-auto">
             <a
-              class="btn btn-outline-primary"
-              href="https://www.google.com"
-              role="button"
-              >Test 1</a
-            >
+                class="btn btn-outline-primary"
+                role="button"
+                th:text="${test.testTitle}"
+                th:href="@{/test/{id}(id=${test.id})}"
+            >Test Placeholder</a>
           </div>
         </div>
       </div>
