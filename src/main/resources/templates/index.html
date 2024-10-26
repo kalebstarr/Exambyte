@@ -18,7 +18,7 @@
               class="btn btn-outline-primary"
               role="button"
               th:text="${test.testTitle}"
-              th:href="@{/test/{id}(id=${test.id})}"
+              th:href="@{'/test/' + ${test.id}}"
               >Test title Placeholder</a
             >
           </div>
