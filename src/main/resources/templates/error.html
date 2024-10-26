@@ -5,8 +5,9 @@
 <th:block th:insert="~{fragments :: navigation}" />
 
 <header>
-  <div class="container">
-    <h1 class="error">An error has occurred</h1>
+  <div class="container" th:switch="${title}">
+    <h1 class="error" th:case="Error">An error has occurred</h1>
+    <h1 th:case="Secret">Hey</h1>
   </div>
 </header>
 
