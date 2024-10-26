@@ -1,6 +1,7 @@
 package com.soup.exambyte.controllers;
 
 import com.soup.exambyte.models.Test;
+import com.soup.exambyte.service.TestService;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +25,8 @@ public class UserController {
   public String indexView(Model model) {
     model.addAttribute("title", "Exambyte - Home");
 
-    List<Test> tests = List.of(
-        new Test(1, "Test 1", "Test 1 Description"),
-        new Test(2, "Test 2", "Test 2 Description"),
-        new Test(3, "Test 3", "Test 3 Description"),
-        new Test(4, "Test 4", "Test 4 Description")
-    );
+    TestService testService = new TestService();
+    List<Test> tests = testService.getAllTests();
     model.addAttribute("tests", tests);
 
     return "index";
