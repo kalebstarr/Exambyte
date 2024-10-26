@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
-<th:block th:insert="~{fragments :: head}" />
-<body>
-<th:block th:insert="~{fragments :: navigation}" />
+  <th:block th:insert="~{fragments :: head}" />
+  <body>
+    <th:block th:insert="~{fragments :: navigation}" />
 
-<header>
-  <div class="container" th:switch="${title}">
-    <h1 class="error" th:case="Error">An error has occurred</h1>
-    <h1 th:case="Secret">Hey</h1>
-  </div>
-</header>
+    <header>
+      <div class="container" th:switch="${title}">
+        <h1 class="error" th:case="Error">An error has occurred</h1>
+        <h1 th:case="Secret">Hey</h1>
+      </div>
+    </header>
 
-<main>
-  <div class="container">
-    <div class="row">
-      <div th:switch="${error}">
-        <div th:case="404">
-          <th:block th:insert="~{fragments :: error-404}"></th:block>
-        </div>
-        <div th:case="500">
-          <th:block th:insert="~{fragments :: error-500}"></th:block>
-        </div>
-        <div th:case="null">
-          <h2>Nothing to see here =)</h2>
-        </div>
-        <div th:case="*">
-          <h2 th:text="'Error: ' + ${error}">Error Placeholder</h2>
+    <main>
+      <div class="container">
+        <div class="row">
+          <div th:switch="${error}">
+            <div th:case="404">
+              <th:block th:insert="~{fragments :: error-404}"></th:block>
+            </div>
+            <div th:case="500">
+              <th:block th:insert="~{fragments :: error-500}"></th:block>
+            </div>
+            <div th:case="null">
+              <h2>Nothing to see here =)</h2>
+            </div>
+            <div th:case="*">
+              <h2 th:text="'Error: ' + ${error}">Error Placeholder</h2>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</main>
+    </main>
 
-<th:block th:insert="~{fragments :: footer}" />
+    <th:block th:insert="~{fragments :: footer}" />
 
-<th:block th:insert="~{fragments :: bootstrap-script}" />
-</body>
+    <th:block th:insert="~{fragments :: bootstrap-script}" />
+  </body>
 </html>
