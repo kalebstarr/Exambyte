@@ -6,14 +6,25 @@
 
     <header>
       <div class="container">
-        <h1>Sample Test</h1>
+        <h1 th:text="${test.testTitle}">Sample Test</h1>
       </div>
     </header>
 
     <main>
       <div class="container">
         <div class="row">
-          <h2>This is a sample description for a Test</h2>
+          <h2 th:text="${test.testDescription}">This is a sample description for a Test</h2>
+        </div>
+        <div class="row" th:each="question,iter : ${questions}">
+          <div class="d-grid gap-2 mx-auto">
+            <a
+                class="btn btn-outline-primary"
+                role="button"
+                th:text="${question.getQuestionDetails().questionTitle}"
+                th:href="@{'/test/' + ${testNumber} + '/question/' + ${iter.index}}"
+            >Test title Placeholder</a
+            >
+          </div>
         </div>
       </div>
     </main>

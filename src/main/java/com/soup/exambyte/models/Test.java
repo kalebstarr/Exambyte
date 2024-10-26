@@ -63,4 +63,13 @@ public class Test {
   public void addQuestion(Question question) {
     questions.add(question);
   }
+
+  /**
+   * Adds a list of questions to a test.
+
+   * @param questions A list of questions.
+   */
+  public void addQuestions(List<Question> questions) {
+    this.questions.addAll(questions);
+  }
 }
