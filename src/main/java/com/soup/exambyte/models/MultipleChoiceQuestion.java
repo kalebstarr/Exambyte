@@ -26,6 +26,16 @@ public class MultipleChoiceQuestion implements Question {
     return questionDetails;
   }
 
+  @Override
+  public String getQuestionTitle() {
+    return questionDetails.getQuestionTitle();
+  }
+
+  @Override
+  public String getQuestionDescription() {
+    return questionDetails.getQuestionDescription();
+  }
+
   public Map<String, Boolean> getOptions() {
     return options;
   }

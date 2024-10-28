@@ -22,7 +22,7 @@
             <a
               class="btn btn-outline-primary"
               role="button"
-              th:text="${question.getQuestionDetails().questionTitle}"
+              th:text="${question.getQuestionTitle()}"
               th:href="@{'/test/' + ${testNumber} + '/question/' + ${iter.index}}"
               >Test title Placeholder</a
             >
