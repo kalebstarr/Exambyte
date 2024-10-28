@@ -8,12 +8,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.soup.exambyte.models.MultipleChoiceQuestion;
 import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.service.QuestionService;
 import com.soup.exambyte.service.TestService;
-import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -91,52 +93,59 @@ public class UserControllerTests {
     // TODO: Once testView returns content update test to check for that returned content
   }
 
-  @Test
-  @DisplayName("Question page loads")
-  void test_06() throws Exception {
-    mockMvc.perform(get("/test/2/question/3")).
-        andDo(print()).
-        andExpect(status().isOk());
-  }
+  @Nested
+  class QuestionViewTests {
 
-  @Test
-  @DisplayName("Question page has correct title")
-  void test_07() throws Exception {
-    int testNumber = 2;
-    when(testService.getTestById(testNumber)).
-        thenReturn(new com.soup.exambyte.models.Test(3,
-            "Test 3",
-            "Test 3 Description"));
-    when(questionService.getByTestId(testNumber)).
-        thenReturn(List.of(
-            new TextQuestion("TQuestion 2", "TQuestion Description 2"),
-            new MultipleChoiceQuestion("MCQuestion 2", "MCQuestion Description 2"),
-            new TextQuestion("TQuestion 3", "TQuestion Description 3")
-        ));
+    private final int testNumber = 2;
+    private final int questionNumber = 2;
 
-    MvcResult result = mockMvc.perform(get("/test/2/question/" + testNumber)).
-        andExpect(model().attribute("title", equalTo("Exambyte - Question"))).
-        andExpect(model().attributeExists("test")).
-        andExpect(model().attributeExists("question")).
-        andReturn();
+    @BeforeEach
+    void setupQuestionViewTests() {
+      when(testService.getTestById(testNumber)).
+          thenReturn(new com.soup.exambyte.models.Test(3,
+              "Test 3",
+              "Test 3 Description"));
+      when(questionService.getByTestIdAndQuestionId(testNumber, questionNumber)).
+          thenReturn(Optional.of(new TextQuestion("Test 1",
+              "Test 1 Description")));
+    }
 
-    // TODO: Determine if checking html for contents is necessary
-    String html = result.getResponse().getContentAsString();
-    assertThat(html).contains("Exambyte - Question");
-  }
+    @Test
+    @DisplayName("Question page loads")
+    void test_06() throws Exception {
+      mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
+              testNumber,
+              questionNumber)).
+          andDo(print()).
+          andExpect(status().isOk());
+    }
 
-  @Test
-  @DisplayName("Question returns correct content according to path variables")
-  void test_08() throws Exception {
-    int testNumber = 5;
-    int questionNumber = 8;
+    @Test
+    @DisplayName("Question page has correct title")
+    void test_07() throws Exception {
+      MvcResult result = mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
+              testNumber,
+              questionNumber)).
+          andExpect(model().attribute("title", equalTo("Exambyte - Question"))).
+          andExpect(model().attributeExists("test")).
+          andExpect(model().attributeExists("question")).
+          andReturn();
 
-    mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
-            testNumber,
-            questionNumber)).
-        andDo(print()).
-        andExpect(status().isOk());
+      // TODO: Determine if checking html for contents is necessary
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("Exambyte - Question");
+    }
 
-    // TODO: Once questionView returns content update test to check for that returned content
+    @Test
+    @DisplayName("Question returns correct content according to path variables")
+    void test_08() throws Exception {
+      mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
+              testNumber,
+              questionNumber)).
+          andDo(print()).
+          andExpect(status().isOk());
+
+      // TODO: Once questionView returns content update test to check for that returned content
+    }
   }
 }
