@@ -71,6 +71,8 @@ public class UserController {
       @PathVariable(value = "questionNumber") int questionNumber) {
     model.addAttribute("title", "Exambyte - Question");
 
+    questionNumber -= 1;
+
     TestService testService = new TestService();
     Test test = testService.getTestById(testNumber);
 
