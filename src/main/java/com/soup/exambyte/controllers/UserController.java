@@ -5,6 +5,7 @@ import com.soup.exambyte.models.Test;
 import com.soup.exambyte.service.QuestionService;
 import com.soup.exambyte.service.TestService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,14 +75,15 @@ public class UserController {
     Test test = testService.getTestById(testNumber);
 
     QuestionService questionService = new QuestionService();
-    Question question = questionService.getByTestIdAndQuestionId(testNumber, questionNumber);
+    Optional<Question> question = questionService.getByTestIdAndQuestionId(testNumber,
+        questionNumber);
 
-    if (question == null) {
+    if (question.isEmpty()) {
       return "redirect:/test/" + testNumber;
     }
 
     model.addAttribute("test", test);
-    model.addAttribute("question", question);
+    model.addAttribute("question", question.get());
 
     return "question";
   }

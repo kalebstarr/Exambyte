@@ -4,6 +4,8 @@ import com.soup.exambyte.models.MultipleChoiceQuestion;
 import com.soup.exambyte.models.Question;
 import com.soup.exambyte.models.TextQuestion;
 import java.util.List;
+import java.util.Optional;
+
 
 /**
  * Service for managing questions.
@@ -57,17 +59,17 @@ public class QuestionService {
    * @param questionId  Index of the question in a list of questions associated with a test.
    * @return            Returns a question object.
    */
-  public Question getByTestIdAndQuestionId(int testId, int questionId) {
+  public Optional<Question> getByTestIdAndQuestionId(int testId, int questionId) {
     List<Question> questions = getByTestId(testId);
 
     if (questions == null) {
-      return null;
+      return Optional.empty();
     }
 
     try {
-      return questions.get(questionId);
+      return Optional.of(questions.get(questionId));
     } catch (Exception e) {
-      return null;
+      return Optional.empty();
     }
   }
 }
