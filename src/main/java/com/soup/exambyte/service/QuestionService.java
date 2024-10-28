@@ -49,4 +49,25 @@ public class QuestionService {
       default -> null;
     };
   }
+
+  /**
+   * Get a question by it's testId and questionId.
+
+   * @param testId      ID of the question that the question is associated with.
+   * @param questionId  Index of the question in a list of questions associated with a test.
+   * @return            Returns a question object.
+   */
+  public Question getByTestIdAndQuestionId(int testId, int questionId) {
+    List<Question> questions = getByTestId(testId);
+
+    if (questions == null) {
+      return null;
+    }
+
+    try {
+      return questions.get(questionId);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 }
