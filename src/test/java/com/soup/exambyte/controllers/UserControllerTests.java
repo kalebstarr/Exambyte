@@ -35,6 +35,7 @@ public class UserControllerTests {
   void test_02() throws Exception {
     MvcResult result = mockMvc.perform(get("/")).
         andExpect(model().attribute("title", equalTo("Exambyte - Home"))).
+        andExpect(model().attributeExists("tests")).
         andReturn();
 
     // TODO: Determine if checking html for contents is necessary
@@ -55,6 +56,8 @@ public class UserControllerTests {
   void test_04() throws Exception {
     MvcResult result = mockMvc.perform(get("/test/1")).
         andExpect(model().attribute("title", equalTo("Exambyte - Test"))).
+        andExpect(model().attributeExists("test")).
+        andExpect(model().attributeExists("questions")).
         andReturn();
 
     // TODO: Determine if checking html for contents is necessary
