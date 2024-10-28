@@ -2,16 +2,23 @@ package com.soup.exambyte.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.soup.exambyte.models.MultipleChoiceQuestion;
+import com.soup.exambyte.models.TextQuestion;
+import com.soup.exambyte.service.QuestionService;
+import com.soup.exambyte.service.TestService;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -21,6 +28,12 @@ public class UserControllerTests {
 
   @Autowired
   private MockMvc mockMvc;
+
+  @MockBean
+  private TestService testService;
+
+  @MockBean
+  private QuestionService questionService;
 
   @Test
   @DisplayName("Index page loads")
@@ -89,8 +102,22 @@ public class UserControllerTests {
   @Test
   @DisplayName("Question page has correct title")
   void test_07() throws Exception {
-    MvcResult result = mockMvc.perform(get("/test/2/question/3")).
+    int testNumber = 2;
+    when(testService.getTestById(testNumber)).
+        thenReturn(new com.soup.exambyte.models.Test(3,
+            "Test 3",
+            "Test 3 Description"));
+    when(questionService.getByTestId(testNumber)).
+        thenReturn(List.of(
+            new TextQuestion("TQuestion 2", "TQuestion Description 2"),
+            new MultipleChoiceQuestion("MCQuestion 2", "MCQuestion Description 2"),
+            new TextQuestion("TQuestion 3", "TQuestion Description 3")
+        ));
+
+    MvcResult result = mockMvc.perform(get("/test/2/question/" + testNumber)).
         andExpect(model().attribute("title", equalTo("Exambyte - Question"))).
+        andExpect(model().attributeExists("test")).
+        andExpect(model().attributeExists("question")).
         andReturn();
 
     // TODO: Determine if checking html for contents is necessary

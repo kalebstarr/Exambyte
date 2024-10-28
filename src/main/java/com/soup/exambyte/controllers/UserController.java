@@ -69,6 +69,20 @@ public class UserController {
       @PathVariable(value = "testNumber") int testNumber,
       @PathVariable(value = "questionNumber") int questionNumber) {
     model.addAttribute("title", "Exambyte - Question");
+
+    TestService testService = new TestService();
+    Test test = testService.getTestById(testNumber);
+
+    QuestionService questionService = new QuestionService();
+    Question question = questionService.getByTestIdAndQuestionId(testNumber, questionNumber);
+
+    if (question == null) {
+      return "redirect:/test/" + testNumber;
+    }
+
+    model.addAttribute("test", test);
+    model.addAttribute("question", question);
+
     return "question";
   }
 }
