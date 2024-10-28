@@ -11,6 +11,8 @@ public interface Question {
    * @return QuestionDetails object.
    */
   QuestionDetails getQuestionDetails();
+
   String getQuestionTitle();
+
   String getQuestionDescription();
 }
