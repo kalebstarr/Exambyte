@@ -6,6 +6,7 @@ import com.soup.exambyte.service.QuestionService;
 import com.soup.exambyte.service.TestService;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class UserController {
 
+  @Autowired
+  private TestService testService;
+
+  @Autowired
+  private QuestionService questionService;
+
   /**
    * Handles requests for root URL ("/").
 
@@ -29,7 +36,6 @@ public class UserController {
     model.addAttribute("title", "Exambyte - Home");
 
     // TODO: Determine if the list of tests also needs to be optional for the case that none exist.
-    TestService testService = new TestService();
     List<Test> tests = testService.getAllTests();
     model.addAttribute("tests", tests);
 
@@ -48,14 +54,11 @@ public class UserController {
     model.addAttribute("title", "Exambyte - Test");
     model.addAttribute("testNumber", testNumber);
 
-    TestService testService = new TestService();
     Optional<Test> test = testService.getTestById(testNumber);
-
     if (test.isEmpty()) {
       return "redirect:/";
     }
 
-    QuestionService questionService = new QuestionService();
     List<Question> questions = questionService.getByTestId(testNumber);
 
     model.addAttribute("test", test.get());
@@ -78,17 +81,13 @@ public class UserController {
 
     questionNumber -= 1;
 
-    TestService testService = new TestService();
     Optional<Test> test = testService.getTestById(testNumber);
-
     if (test.isEmpty()) {
       return "redirect:/";
     }
 
-    QuestionService questionService = new QuestionService();
     Optional<Question> question = questionService.getByTestIdAndQuestionId(testNumber,
         questionNumber);
-
     if (question.isEmpty()) {
       return "redirect:/test/" + testNumber;
     }
