@@ -28,6 +28,7 @@ public class UserController {
   public String indexView(Model model) {
     model.addAttribute("title", "Exambyte - Home");
 
+    // TODO: Determine if the list of tests also needs to be optional for the case that none exist.
     TestService testService = new TestService();
     List<Test> tests = testService.getAllTests();
     model.addAttribute("tests", tests);
@@ -48,12 +49,16 @@ public class UserController {
     model.addAttribute("testNumber", testNumber);
 
     TestService testService = new TestService();
-    Test test = testService.getTestById(testNumber);
+    Optional<Test> test = testService.getTestById(testNumber);
+
+    if (test.isEmpty()) {
+      return "redirect:/";
+    }
 
     QuestionService questionService = new QuestionService();
     List<Question> questions = questionService.getByTestId(testNumber);
 
-    model.addAttribute("test", test);
+    model.addAttribute("test", test.get());
     model.addAttribute("questions", questions);
 
     return "test";
@@ -74,7 +79,11 @@ public class UserController {
     questionNumber -= 1;
 
     TestService testService = new TestService();
-    Test test = testService.getTestById(testNumber);
+    Optional<Test> test = testService.getTestById(testNumber);
+
+    if (test.isEmpty()) {
+      return "redirect:/";
+    }
 
     QuestionService questionService = new QuestionService();
     Optional<Question> question = questionService.getByTestIdAndQuestionId(testNumber,
@@ -84,7 +93,7 @@ public class UserController {
       return "redirect:/test/" + testNumber;
     }
 
-    model.addAttribute("test", test);
+    model.addAttribute("test", test.get());
     model.addAttribute("question", question.get());
 
     return "question";

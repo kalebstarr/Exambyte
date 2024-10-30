@@ -2,6 +2,7 @@ package com.soup.exambyte.service;
 
 import com.soup.exambyte.models.Test;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service for managing tests.
@@ -35,14 +36,14 @@ public class TestService {
    * @param testId  The ID associated with the test.
    * @return        Returns a test.
    */
-  public Test getTestById(int testId) {
+  public Optional<Test> getTestById(int testId) {
     return switch (testId) {
-      case 1 -> new Test(1, "Test 1", "Test 1 Description");
-      case 2 -> new Test(2, "Test 2", "Test 2 Description");
-      case 3 -> new Test(3, "Test 3", "Test 3 Description");
-      case 4 -> new Test(4, "Test 4", "Test 4 Description");
-      case 5 -> new Test(5, "Test 5", "Test 5 Description");
-      default -> null;
+      case 1 -> Optional.of(new Test(1, "Test 1", "Test 1 Description"));
+      case 2 -> Optional.of(new Test(2, "Test 2", "Test 2 Description"));
+      case 3 -> Optional.of(new Test(3, "Test 3", "Test 3 Description"));
+      case 4 -> Optional.of(new Test(4, "Test 4", "Test 4 Description"));
+      case 5 -> Optional.of(new Test(5, "Test 5", "Test 5 Description"));
+      default -> Optional.empty();
     };
   }
 }

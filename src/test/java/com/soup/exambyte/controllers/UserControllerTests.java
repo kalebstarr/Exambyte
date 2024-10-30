@@ -94,6 +94,16 @@ public class UserControllerTests {
     // TODO: Once testView returns content update test to check for that returned content
   }
 
+  @Test
+  @DisplayName("Test view redirects to '/' with nonexistent testNumber")
+  void test_05_5() throws Exception {
+    mockMvc.perform(get("/test/{testNumber}",
+            Integer.MAX_VALUE)).
+        andDo(print()).
+        andExpect(status().is3xxRedirection()).
+        andExpect(redirectedUrl("/"));
+  }
+
   @Nested
   class QuestionViewTests {
 
@@ -103,9 +113,9 @@ public class UserControllerTests {
     @BeforeEach
     void setupQuestionViewTests() {
       when(testService.getTestById(testNumber)).
-          thenReturn(new com.soup.exambyte.models.Test(3,
+          thenReturn(Optional.of(new com.soup.exambyte.models.Test(3,
               "Test 3",
-              "Test 3 Description"));
+              "Test 3 Description")));
       when(questionService.getByTestIdAndQuestionId(testNumber, questionNumber)).
           thenReturn(Optional.of(new TextQuestion("Test 1",
               "Test 1 Description")));
@@ -158,6 +168,17 @@ public class UserControllerTests {
           andDo(print()).
           andExpect(status().is3xxRedirection()).
           andExpect(redirectedUrl("/test/" + testNumber));
+    }
+
+    @Test
+    @DisplayName("Question redirects to '/' with nonexistent testNumber")
+    void test_10() throws Exception {
+      mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
+              Integer.MAX_VALUE,
+              questionNumber)).
+          andDo(print()).
+          andExpect(status().is3xxRedirection()).
+          andExpect(redirectedUrl("/"));
     }
   }
 }
