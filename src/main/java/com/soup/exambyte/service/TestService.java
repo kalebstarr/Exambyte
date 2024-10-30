@@ -3,10 +3,12 @@ package com.soup.exambyte.service;
 import com.soup.exambyte.models.Test;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 /**
  * Service for managing tests.
  */
+@Service
 public class TestService {
 
   /**

@@ -5,11 +5,13 @@ import com.soup.exambyte.models.Question;
 import com.soup.exambyte.models.TextQuestion;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 
 /**
  * Service for managing questions.
  */
+@Service
 public class QuestionService {
 
   /**
