@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.soup.exambyte.models.TextQuestion;
@@ -146,6 +147,17 @@ public class UserControllerTests {
           andExpect(status().isOk());
 
       // TODO: Once questionView returns content update test to check for that returned content
+    }
+
+    @Test
+    @DisplayName("Question redirects to /test/{testNumber} with nonexistent questionNumber")
+    void test_09() throws Exception {
+      mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
+              testNumber,
+              Integer.MAX_VALUE)).
+          andDo(print()).
+          andExpect(status().is3xxRedirection()).
+          andExpect(redirectedUrl("/test/" + testNumber));
     }
   }
 }
