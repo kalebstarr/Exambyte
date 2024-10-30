@@ -18,15 +18,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(UserController.class)
 public class UserControllerTests {
 
   @Autowired
@@ -59,49 +57,63 @@ public class UserControllerTests {
     assertThat(html).contains("Exambyte - Home");
   }
 
-  @Test
-  @DisplayName("Test page loads")
-  void test_03() throws Exception {
-    mockMvc.perform(get("/test/1")).
-        andDo(print()).
-        andExpect(status().isOk());
-  }
+  @Nested
+  class TestViewTests {
 
-  @Test
-  @DisplayName("Test page has correct title")
-  void test_04() throws Exception {
-    MvcResult result = mockMvc.perform(get("/test/1")).
-        andExpect(model().attribute("title", equalTo("Exambyte - Test"))).
-        andExpect(model().attributeExists("test")).
-        andExpect(model().attributeExists("questions")).
-        andReturn();
+    private final int testNumber = 2;
 
-    // TODO: Determine if checking html for contents is necessary
-    String html = result.getResponse().getContentAsString();
-    assertThat(html).contains("Exambyte - Test");
-  }
+    @BeforeEach
+    void setupTestViewTests() {
+      when(testService.getTestById(testNumber)).
+          thenReturn(Optional.of(new com.soup.exambyte.models.Test(3,
+              "Test 3",
+              "Test 3 Description")));
+    }
 
-  @Test
-  @DisplayName("Test view returns correct content according to path variables")
-  void test_05() throws Exception {
-    int testNumber = 5;
+    @Test
+    @DisplayName("Test page loads")
+    void test_03() throws Exception {
+      mockMvc.perform(get("/test/{testNumber}",
+              testNumber)).
+          andDo(print()).
+          andExpect(status().isOk());
+    }
 
-    mockMvc.perform(get("/test/{testNumber}",
-            testNumber)).
-        andDo(print()).
-        andExpect(status().isOk());
+    @Test
+    @DisplayName("Test page has correct title")
+    void test_04() throws Exception {
+      MvcResult result = mockMvc.perform(get("/test/{testNumber}",
+              testNumber)).
+          andExpect(model().attribute("title", equalTo("Exambyte - Test"))).
+          andExpect(model().attributeExists("test")).
+          andExpect(model().attributeExists("questions")).
+          andReturn();
 
-    // TODO: Once testView returns content update test to check for that returned content
-  }
+      // TODO: Determine if checking html for contents is necessary
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("Exambyte - Test");
+    }
 
-  @Test
-  @DisplayName("Test view redirects to '/' with nonexistent testNumber")
-  void test_05_5() throws Exception {
-    mockMvc.perform(get("/test/{testNumber}",
-            Integer.MAX_VALUE)).
-        andDo(print()).
-        andExpect(status().is3xxRedirection()).
-        andExpect(redirectedUrl("/"));
+    @Test
+    @DisplayName("Test view returns correct content according to path variables")
+    void test_05() throws Exception {
+      mockMvc.perform(get("/test/{testNumber}",
+              testNumber)).
+          andDo(print()).
+          andExpect(status().isOk());
+
+      // TODO: Once testView returns content update test to check for that returned content
+    }
+
+    @Test
+    @DisplayName("Test view redirects to '/' with nonexistent testNumber")
+    void test_05_5() throws Exception {
+      mockMvc.perform(get("/test/{testNumber}",
+              Integer.MAX_VALUE)).
+          andDo(print()).
+          andExpect(status().is3xxRedirection()).
+          andExpect(redirectedUrl("/"));
+    }
   }
 
   @Nested
@@ -116,7 +128,7 @@ public class UserControllerTests {
           thenReturn(Optional.of(new com.soup.exambyte.models.Test(3,
               "Test 3",
               "Test 3 Description")));
-      when(questionService.getByTestIdAndQuestionId(testNumber, questionNumber)).
+      when(questionService.getByTestIdAndQuestionId(testNumber, questionNumber - 1)).
           thenReturn(Optional.of(new TextQuestion("Test 1",
               "Test 1 Description")));
     }
