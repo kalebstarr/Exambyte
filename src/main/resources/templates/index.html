@@ -12,15 +12,21 @@
 
     <main>
       <div class="container">
-        <div class="row" th:each="test : ${tests}">
-          <div class="d-grid gap-2 mx-auto">
+        <div class="row">
+          <div
+            class="d-grid gap-2 mx-auto col-lg-6 content-box"
+            th:each="test : ${tests}"
+          >
             <a
               class="btn btn-outline-primary"
               role="button"
-              th:text="${test.testTitle}"
               th:href="@{'/test/' + ${test.id}}"
-              >Test title Placeholder</a
             >
+              <h3 th:text="${test.testTitle}">Test title placeholder</h3>
+              <p th:text="${test.testDescription}">
+                Test description placeholder
+              </p>
+            </a>
           </div>
         </div>
       </div>
