@@ -10,7 +10,7 @@ public class QuestionDetails {
   private String questionDescription;
 
   /**
-   * Constructor for a Question object with questionTitle and questionDescription.
+   * Constructor for a QuestionDetails object with questionTitle and questionDescription.
 
    * @param questionTitle       The title of the question.
    * @param questionDescription The description of a question.

@@ -7,9 +7,8 @@ import java.util.Map;
 /**
  * Multiple choice variation of a question.
  */
-public class MultipleChoiceQuestion implements Question {
+public class MultipleChoiceQuestion extends Question {
 
-  private final QuestionDetails questionDetails;
   private final Map<String, Boolean> options = new HashMap<>();
 
   /**
@@ -19,21 +18,7 @@ public class MultipleChoiceQuestion implements Question {
    * @param questionDescription The description of a multiple choice question.
    */
   public MultipleChoiceQuestion(String questionTitle, String questionDescription) {
-    this.questionDetails = new QuestionDetails(questionTitle, questionDescription);
-  }
-
-  public QuestionDetails getQuestionDetails() {
-    return questionDetails;
-  }
-
-  @Override
-  public String getQuestionTitle() {
-    return questionDetails.getQuestionTitle();
-  }
-
-  @Override
-  public String getQuestionDescription() {
-    return questionDetails.getQuestionDescription();
+    super(questionTitle, questionDescription);
   }
 
   public Map<String, Boolean> getOptions() {

@@ -4,9 +4,8 @@ package com.soup.exambyte.models;
 /**
  * Text based variation of a question.
  */
-public class TextQuestion implements Question {
+public class TextQuestion extends Question {
 
-  private final QuestionDetails questionDetails;
   private String answer = "";
 
   /**
@@ -16,21 +15,7 @@ public class TextQuestion implements Question {
    * @param questionDescription The description of a multiple choice question.
    */
   public TextQuestion(String questionTitle, String questionDescription) {
-    this.questionDetails = new QuestionDetails(questionTitle, questionDescription);
-  }
-
-  public QuestionDetails getQuestionDetails() {
-    return questionDetails;
-  }
-
-  @Override
-  public String getQuestionTitle() {
-    return questionDetails.getQuestionTitle();
-  }
-
-  @Override
-  public String getQuestionDescription() {
-    return questionDetails.getQuestionDescription();
+    super(questionTitle, questionDescription);
   }
 
   public String getAnswer() {
