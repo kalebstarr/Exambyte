@@ -3,12 +3,14 @@ package com.soup.exambyte.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**
  * Controller for admin requests.
  */
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
 
   /**
@@ -18,7 +20,7 @@ public class AdminController {
    * @return      Returns the "index" template.
    */
   // TODO: Determine if this mapping is actually needed as it duplicates index() in UserController.
-  @GetMapping("/admin")
+  @GetMapping("/")
   public String adminView(Model model) {
     model.addAttribute("title", "Exambyte - Admin");
     return "index";
