@@ -35,9 +35,8 @@ public class UserController {
   public String indexView(Model model) {
     model.addAttribute("title", "Exambyte - Home");
 
-    // TODO: Determine if the list of tests also needs to be optional for the case that none exist.
-    List<Test> tests = testService.getAllTests();
-    model.addAttribute("tests", tests);
+    Optional<List<Test>> tests = testService.getAllTests();
+    tests.ifPresent(testList -> model.addAttribute("tests", testList));
 
     return "index";
   }
