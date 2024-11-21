@@ -8,10 +8,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.service.QuestionService;
 import com.soup.exambyte.service.TestService;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -47,6 +49,13 @@ public class UserControllerTests {
   @Test
   @DisplayName("Index page has correct title")
   void test_02() throws Exception {
+    when(testService.getAllTests()).
+        thenReturn(Optional.of(
+            List.of(new com.soup.exambyte.models.Test(
+                1, "Test 1", "Test Description"
+            ))
+        ));
+
     MvcResult result = mockMvc.perform(get("/")).
         andExpect(model().attribute("title", equalTo("Exambyte - Home"))).
         andExpect(model().attributeExists("tests")).
@@ -76,7 +85,8 @@ public class UserControllerTests {
       mockMvc.perform(get("/test/{testNumber}",
               testNumber)).
           andDo(print()).
-          andExpect(status().isOk());
+          andExpect(status().isOk()).
+          andExpect(view().name("test"));
     }
 
     @Test
