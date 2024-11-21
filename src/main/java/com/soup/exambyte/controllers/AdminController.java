@@ -20,9 +20,22 @@ public class AdminController {
    * @return      Returns the "index" template.
    */
   // TODO: Determine if this mapping is actually needed as it duplicates index() in UserController.
-  @GetMapping("/")
+  @GetMapping("")
   public String adminView(Model model) {
     model.addAttribute("title", "Exambyte - Admin");
     return "index";
+  }
+
+  /**
+   * Handles requests for default admin URL ("/admin/createtest").
+
+   * @param model The Spring model.
+   * @return      Returns the "create-test" template.
+   */
+  @GetMapping("/createtest")
+  public String createTestView(Model model) {
+    model.addAttribute("title", "Exambyte - Create Test");
+
+    return "create-test";
   }
 }
