@@ -160,6 +160,10 @@
           questionContainer.appendChild(newQuestion);
           questionId++;
         });
+
+      window.onbeforeunload = function() {
+        return "Reloading will discard all changes";
+      }
     </script>
   </body>
 </html>
