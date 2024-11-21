@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -39,4 +40,26 @@ public class AdminControllerTests {
     assertThat(html).contains("Exambyte - Admin");
   }
 
+  @Nested
+  class CreateTestViewTest {
+
+    @Test
+    @DisplayName("createtest page loads")
+    void test_03() throws Exception {
+      mockMvc.perform(get("/admin/createtest")).
+          andDo(print()).
+          andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("createtest page has correct title")
+    void test_02() throws Exception {
+      MvcResult result = mockMvc.perform(get("/admin/createtest")).
+          andExpect(model().attribute("title", equalTo("Exambyte - Create Test"))).
+          andReturn();
+
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("Create Test");
+    }
+  }
 }
