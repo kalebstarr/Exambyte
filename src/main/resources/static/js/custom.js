@@ -62,12 +62,63 @@ document
                     ></textarea>
                   </div>
                 </div>
+                <div class="row mb-3 question-mc-${questionId}" style="display: none">
+                  <label class="col-sm-2 col-form-label"
+                    >Options</label
+                  >
+                  <div class="col-sm-10" id="optionsContainer1">
+                    <div class="input-group mb-3">
+                      <div class="input-group-text">
+                        <label for="questions[0].correctOptions"></label>
+                        <input
+                          type="checkbox"
+                          id="questions[0].correctOptions"
+                          name="questions[0].correctOptions"
+                        />
+                      </div>
+                      <label for="questions[0].options"></label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="questions[0].options"
+                        name="questions[0].options"
+                        placeholder="Option Text"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
           `;
   questionContainer.appendChild(newQuestion);
+
+  multipleChoiceFoldEnable(questionId);
+
   questionId++;
 });
 
 window.onbeforeunload = function() {
   return "Reloading will discard all changes";
 }
+
+function multipleChoiceFoldEnable(questionId) {
+  document.getElementById("questionType" + questionId).addEventListener("change", function () {
+    const value = this.value;
+    const mcFields = document.querySelectorAll(".question-mc-" + questionId);
+
+    if (value === "Multiple Choice") {
+      mcFields.forEach(function (field) {
+        field.style.display = "flex";
+      });
+    } else if (value === "Text") {
+      // TODO: Remove content from Multiple choice area or do this validation in the controller
+      mcFields.forEach(function (field) {
+        field.style.display = "none";
+      });
+    } else {
+      mcFields.forEach(function (field) {
+        field.style.display = "none";
+      });
+    }
+  });
+}
+multipleChoiceFoldEnable(1);
