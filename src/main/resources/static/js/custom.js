@@ -66,25 +66,32 @@ document
                   <label class="col-sm-2 col-form-label"
                     >Options</label
                   >
-                  <div class="col-sm-10" id="optionsContainer1">
+                  <div class="col-sm-10" id="optionsContainer${questionId}">
                     <div class="input-group mb-3">
                       <div class="input-group-text">
-                        <label for="questions[0].correctOptions"></label>
+                        <label for="questions[${questionId}].correctOptions"></label>
                         <input
                           type="checkbox"
-                          id="questions[0].correctOptions"
-                          name="questions[0].correctOptions"
+                          id="questions[${questionId}].correctOptions"
+                          name="questions[${questionId}].correctOptions"
                         />
                       </div>
-                      <label for="questions[0].options"></label>
+                      <label for="questions[${questionId}].options"></label>
                       <input
                         type="text"
                         class="form-control"
-                        id="questions[0].options"
-                        name="questions[0].options"
+                        id="questions[${questionId}].options"
+                        name="questions[${questionId}].options"
                         placeholder="Option Text"
                       />
                     </div>
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        onclick="addOption(${questionId})"
+                    >
+                      Add Option
+                    </button>
                   </div>
                 </div>
               </div>
@@ -96,9 +103,11 @@ document
   questionId++;
 });
 
+/*
 window.onbeforeunload = function() {
   return "Reloading will discard all changes";
 }
+*/
 
 function multipleChoiceFoldEnable(questionId) {
   document.getElementById("questionType" + questionId).addEventListener("change", function () {
@@ -122,3 +131,31 @@ function multipleChoiceFoldEnable(questionId) {
   });
 }
 multipleChoiceFoldEnable(1);
+
+function addOption(questionId) {
+  const optionsContainer = document.getElementById(
+      `optionsContainer${questionId}`
+  );
+  const optionCount =
+      optionsContainer.querySelectorAll(".input-group").length;
+  const newOption = document.createElement("div");
+  newOption.classList.add("input-group", "mb-3");
+  newOption.innerHTML = `
+          <div class="input-group-text">
+            <input type="checkbox" name="questions[${
+      questionId
+  }].correctOptions" />
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            name="questions[${questionId}].options"
+            placeholder="Option Text"
+            required
+          />
+        `;
+  optionsContainer.insertBefore(
+      newOption,
+      optionsContainer.lastElementChild
+  );
+}

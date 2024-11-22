@@ -78,22 +78,29 @@
                   <div class="col-sm-10" id="optionsContainer1">
                     <div class="input-group mb-3">
                       <div class="input-group-text">
-                        <label for="questions[0].correctOptions"></label>
+                        <label for="questions[1].correctOptions"></label>
                         <input
                           type="checkbox"
-                          id="questions[0].correctOptions"
-                          name="questions[0].correctOptions"
+                          id="questions[1].correctOptions"
+                          name="questions[1].correctOptions"
                         />
                       </div>
-                      <label for="questions[0].options"></label>
+                      <label for="questions[1].options"></label>
                       <input
                         type="text"
                         class="form-control"
-                        id="questions[0].options"
-                        name="questions[0].options"
+                        id="questions[1].options"
+                        name="questions[1].options"
                         placeholder="Option Text"
                       />
                     </div>
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        onclick="addOption(1)"
+                    >
+                      Add Option
+                    </button>
                   </div>
                 </div>
               </div>
