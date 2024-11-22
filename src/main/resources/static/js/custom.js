@@ -1,13 +1,12 @@
 let questionId = 2;
 
 document
-.getElementById("addQuestionButton")
-.addEventListener("click", function () {
-  const questionContainer =
-      document.getElementById("questionContainer");
-  const newQuestion = document.createElement("div");
-  newQuestion.classList.add("question");
-  newQuestion.innerHTML = `
+  .getElementById("addQuestionButton")
+  .addEventListener("click", function () {
+    const questionContainer = document.getElementById("questionContainer");
+    const newQuestion = document.createElement("div");
+    newQuestion.classList.add("question");
+    newQuestion.innerHTML = `
           <div class="border border-secondary rounded p-3">
                 <input
                   type="hidden"
@@ -96,12 +95,12 @@ document
                 </div>
               </div>
           `;
-  questionContainer.appendChild(newQuestion);
+    questionContainer.appendChild(newQuestion);
 
-  multipleChoiceFoldEnable(questionId);
+    multipleChoiceFoldEnable(questionId);
 
-  questionId++;
-});
+    questionId++;
+  });
 
 /*
 window.onbeforeunload = function() {
@@ -110,41 +109,40 @@ window.onbeforeunload = function() {
 */
 
 function multipleChoiceFoldEnable(questionId) {
-  document.getElementById("questionType" + questionId).addEventListener("change", function () {
-    const value = this.value;
-    const mcFields = document.querySelectorAll(".question-mc-" + questionId);
+  document
+    .getElementById("questionType" + questionId)
+    .addEventListener("change", function () {
+      const value = this.value;
+      const mcFields = document.querySelectorAll(".question-mc-" + questionId);
 
-    if (value === "Multiple Choice") {
-      mcFields.forEach(function (field) {
-        field.style.display = "flex";
-      });
-    } else if (value === "Text") {
-      // TODO: Remove content from Multiple choice area or do this validation in the controller
-      mcFields.forEach(function (field) {
-        field.style.display = "none";
-      });
-    } else {
-      mcFields.forEach(function (field) {
-        field.style.display = "none";
-      });
-    }
-  });
+      if (value === "Multiple Choice") {
+        mcFields.forEach(function (field) {
+          field.style.display = "flex";
+        });
+      } else if (value === "Text") {
+        // TODO: Remove content from Multiple choice area or do this validation in the controller
+        mcFields.forEach(function (field) {
+          field.style.display = "none";
+        });
+      } else {
+        mcFields.forEach(function (field) {
+          field.style.display = "none";
+        });
+      }
+    });
 }
 multipleChoiceFoldEnable(1);
 
 function addOption(questionId) {
   const optionsContainer = document.getElementById(
-      `optionsContainer${questionId}`
+    `optionsContainer${questionId}`
   );
-  const optionCount =
-      optionsContainer.querySelectorAll(".input-group").length;
+  const optionCount = optionsContainer.querySelectorAll(".input-group").length;
   const newOption = document.createElement("div");
   newOption.classList.add("input-group", "mb-3");
   newOption.innerHTML = `
           <div class="input-group-text">
-            <input type="checkbox" name="questions[${
-      questionId
-  }].correctOptions" />
+            <input type="checkbox" name="questions[${questionId}].correctOptions" />
           </div>
           <input
             type="text"
@@ -154,8 +152,5 @@ function addOption(questionId) {
             required
           />
         `;
-  optionsContainer.insertBefore(
-      newOption,
-      optionsContainer.lastElementChild
-  );
+  optionsContainer.insertBefore(newOption, optionsContainer.lastElementChild);
 }
