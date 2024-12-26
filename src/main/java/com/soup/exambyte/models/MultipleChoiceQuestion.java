@@ -1,7 +1,7 @@
 package com.soup.exambyte.models;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -9,7 +9,8 @@ import java.util.Map;
  */
 public class MultipleChoiceQuestion extends Question {
 
-  private final Map<String, Boolean> options = new HashMap<>();
+  private final List<String> options = new ArrayList<>();
+  private final List<Integer> correctOptionIndices = new ArrayList<>();
 
   /**
    * Constructor for a MultipleChoiceQuestion object with questionTitle and questionDescription.
@@ -21,17 +22,26 @@ public class MultipleChoiceQuestion extends Question {
     super(questionTitle, questionDescription);
   }
 
-  public Map<String, Boolean> getOptions() {
+  public List<String> getOptions() {
     return options;
   }
 
-  /**
-   * Adds an option to the multiple choice question.
+  public List<Integer> getCorrectOptionIndices() {
+    return correctOptionIndices;
+  }
 
-   * @param optionText  The text of an option.
-   * @param correct     The correctness of an option.
-   */
-  public void addOptions(String optionText, boolean correct) {
-    options.put(optionText, correct);
+  public void addOption(String option) {
+    options.add(option);
+  }
+
+  public void addCorrectOptionIndex(int correctOptionIndex) {
+    correctOptionIndices.add(correctOptionIndex);
+  }
+
+  public void addOptionAndStatus(String option, boolean isCorrect) {
+    options.add(option);
+    if (isCorrect) {
+      correctOptionIndices.add(options.size() - 1);
+    }
   }
 }
