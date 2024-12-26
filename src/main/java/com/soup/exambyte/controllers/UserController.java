@@ -2,8 +2,8 @@ package com.soup.exambyte.controllers;
 
 import com.soup.exambyte.models.Question;
 import com.soup.exambyte.models.Test;
-import com.soup.exambyte.service.QuestionService;
-import com.soup.exambyte.service.TestService;
+import com.soup.exambyte.services.QuestionService;
+import com.soup.exambyte.services.TestService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

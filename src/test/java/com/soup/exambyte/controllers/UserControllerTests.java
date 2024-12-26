@@ -11,8 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.soup.exambyte.models.TextQuestion;
-import com.soup.exambyte.service.QuestionService;
-import com.soup.exambyte.service.TestService;
+import com.soup.exambyte.services.QuestionService;
+import com.soup.exambyte.services.TestService;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package com.soup.exambyte.service;
+package com.soup.exambyte.services;
 
 import com.soup.exambyte.models.MultipleChoiceQuestion;
 import com.soup.exambyte.models.Question;
