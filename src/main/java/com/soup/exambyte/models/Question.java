@@ -5,6 +5,7 @@ package com.soup.exambyte.models;
  */
 public abstract class Question {
 
+  private Long id;
   private String questionTitle;
   private String questionDescription;
 
