@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Test {
 
-  private int id;
+  private Long id;
   private String testTitle;
   // TODO: Determine if descriptions are necessary for Tests and if they should be optional.
   private String testDescription;
@@ -21,17 +21,17 @@ public class Test {
    * @param testTitle title for a Test.
    * @param testDescription description for a Test
    */
-  public Test(int id, String testTitle, String testDescription) {
+  public Test(long id, String testTitle, String testDescription) {
     this.id = id;
     this.testTitle = testTitle;
     this.testDescription = testDescription;
   }
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 
