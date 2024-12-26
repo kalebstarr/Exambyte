@@ -5,7 +5,8 @@ package com.soup.exambyte.models;
  */
 public abstract class Question {
 
-  private final QuestionDetails questionDetails;
+  private String questionTitle;
+  private String questionDescription;
 
   /**
    * Constructor for Question object with title and description.
@@ -14,28 +15,24 @@ public abstract class Question {
    * @param questionDescription The description of the question.
    */
   public Question(String questionTitle, String questionDescription) {
-    this.questionDetails = new QuestionDetails(questionTitle, questionDescription);
-  }
-
-  /**
-   * Constructor for a Question object with QuestionDetails.
-
-   * @param questionDetails QuestionDetail object.
-   */
-  public Question(QuestionDetails questionDetails) {
-    this.questionDetails = questionDetails;
+    this.questionTitle = questionTitle;
+    this.questionDescription = questionDescription;
   }
 
   public String getQuestionTitle() {
-    return questionDetails.getQuestionTitle();
+    return questionTitle;
+  }
+
+  public void setQuestionTitle(String questionTitle) {
+    this.questionTitle = questionTitle;
   }
 
   public String getQuestionDescription() {
-    return this.questionDetails.getQuestionDescription();
+    return questionDescription;
   }
 
-  public QuestionDetails getQuestionDetails() {
-    return this.questionDetails;
+  public void setQuestionDescription(String questionDescription) {
+    this.questionDescription = questionDescription;
   }
 
   // TODO: Determine if setters are necessary.
