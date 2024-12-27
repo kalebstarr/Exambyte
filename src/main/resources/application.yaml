@@ -16,3 +16,10 @@ server:
     whitelabel:
       enabled: false
 
+roles:
+  correctors:
+    - 11
+    - 12
+  organizers:
+    - 106469655
+    - 12

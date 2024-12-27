@@ -9,6 +9,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+  private final RolesConfig rolesConfig;
+
+  public SecurityConfig(RolesConfig rolesConfig) {
+    this.rolesConfig = rolesConfig;
+  }
+
   @Bean
   public SecurityFilterChain configure(HttpSecurity chainBuilder) throws Exception {
     chainBuilder.authorizeHttpRequests(
@@ -17,7 +23,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated())
             .oauth2Login(config ->
                 config.userInfoEndpoint(
-                    info -> info.userService(new AppUserService())
+                    info -> info.userService(new AppUserService(rolesConfig))
                 ));
 
     return chainBuilder.build();
