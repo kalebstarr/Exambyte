@@ -19,6 +19,7 @@ public class SecurityConfig {
                 config.userInfoEndpoint(
                     info -> info.userService(new AppUserService())
                 ));
+
     return chainBuilder.build();
   }
 }

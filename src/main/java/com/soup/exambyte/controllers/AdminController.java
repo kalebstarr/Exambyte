@@ -1,7 +1,6 @@
 package com.soup.exambyte.controllers;
 
 import com.soup.exambyte.config.AdminOnly;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

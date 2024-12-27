@@ -6,7 +6,6 @@ import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +18,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class UserController {
 
-  @Autowired
-  private TestService testService;
+  private final TestService testService;
 
-  @Autowired
-  private QuestionService questionService;
+  private final QuestionService questionService;
+
+  public UserController(TestService testService, QuestionService questionService) {
+    this.testService = testService;
+    this.questionService = questionService;
+  }
 
   /**
    * Handles requests for root URL ("/").
