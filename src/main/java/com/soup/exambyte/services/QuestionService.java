@@ -55,7 +55,7 @@ public class QuestionService {
   }
 
   /**
-   * Get a question by it's testId and questionId.
+   * Get a question by its testId and questionId.
 
    * @param testId      ID of the question that the question is associated with.
    * @param questionId  Index of the question in a list of questions associated with a test.
