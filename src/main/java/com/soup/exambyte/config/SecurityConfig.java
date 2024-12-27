@@ -19,7 +19,10 @@ public class SecurityConfig {
   public SecurityFilterChain configure(HttpSecurity chainBuilder) throws Exception {
     chainBuilder.authorizeHttpRequests(
             configurer -> configurer
-                .requestMatchers("/", "/css/*", "/error").permitAll()
+                .requestMatchers("/",
+                    "/css/*",
+                    "/error",
+                    "/favicon.ico").permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(config ->
                 config.userInfoEndpoint(
