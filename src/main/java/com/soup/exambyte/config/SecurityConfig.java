@@ -13,7 +13,7 @@ public class SecurityConfig {
   public SecurityFilterChain configure(HttpSecurity chainBuilder) throws Exception {
     chainBuilder.authorizeHttpRequests(
             configurer -> configurer
-                .requestMatchers("/", "/css/*").permitAll()
+                .requestMatchers("/", "/css/*", "/error").permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(config ->
                 config.userInfoEndpoint(
