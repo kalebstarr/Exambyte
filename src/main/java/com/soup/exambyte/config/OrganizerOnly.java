@@ -9,7 +9,7 @@ import org.springframework.security.access.annotation.Secured;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
-@Secured("ROLE_ADMIN")
-public @interface AdminOnly {
+@Secured("ROLE_ORGANIZER")
+public @interface OrganizerOnly {
 
 }

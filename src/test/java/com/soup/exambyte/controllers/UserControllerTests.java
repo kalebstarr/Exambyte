@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.soup.exambyte.config.MethodSecurityConfig;
+import com.soup.exambyte.config.RolesConfig;
 import com.soup.exambyte.config.SecurityConfig;
 import com.soup.exambyte.helper.WithMockOAuth2User;
 import com.soup.exambyte.models.TextQuestion;
@@ -31,7 +32,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 
 @WebMvcTest(UserController.class)
-@Import({SecurityConfig.class, MethodSecurityConfig.class})
+@Import({SecurityConfig.class, MethodSecurityConfig.class, RolesConfig.class})
 public class UserControllerTests {
 
   @Autowired

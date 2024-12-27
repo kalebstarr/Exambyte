@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.soup.exambyte.config.MethodSecurityConfig;
+import com.soup.exambyte.config.RolesConfig;
 import com.soup.exambyte.config.SecurityConfig;
 import com.soup.exambyte.helper.WithMockOAuth2User;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 @WebMvcTest(AdminController.class)
-@Import({SecurityConfig.class, MethodSecurityConfig.class})
+@Import({SecurityConfig.class, MethodSecurityConfig.class, RolesConfig.class})
 public class AdminControllerTests {
 
   @Autowired
@@ -38,7 +39,7 @@ public class AdminControllerTests {
   }
 
   @Test
-  @WithMockOAuth2User(login = "TestUser", roles = "ADMIN")
+  @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
   @DisplayName("Index page loads")
   void test_01() throws Exception {
     mockMvc.perform(get("/admin")).
@@ -47,7 +48,7 @@ public class AdminControllerTests {
   }
 
   @Test
-  @WithMockOAuth2User(login = "TestUser", roles = "ADMIN")
+  @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
   @DisplayName("Index page has correct title")
   void test_02() throws Exception {
     MvcResult result = mockMvc.perform(get("/admin")).
@@ -73,7 +74,7 @@ public class AdminControllerTests {
     }
 
     @Test
-    @WithMockOAuth2User(login = "TestUser", roles = "ADMIN")
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
     @DisplayName("createtest page loads")
     void test_03() throws Exception {
       mockMvc.perform(get("/admin/createtest")).
@@ -82,7 +83,7 @@ public class AdminControllerTests {
     }
 
     @Test
-    @WithMockOAuth2User(login = "TestUser", roles = "ADMIN")
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
     @DisplayName("createtest page has correct title")
     void test_02() throws Exception {
       MvcResult result = mockMvc.perform(get("/admin/createtest")).
