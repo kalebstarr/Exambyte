@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.soup.exambyte.config.MethodSecurityConfig;
 import com.soup.exambyte.config.SecurityConfig;
+import com.soup.exambyte.helper.WithMockOAuth2User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,18 @@ public class AdminControllerTests {
   private MockMvc mockMvc;
 
   @Test
+  @DisplayName("Admin page fails to load without user being authenticated")
+  void test_00_5() throws Exception {
+    MvcResult result = mockMvc.perform(get("/admin")).
+        andExpect(status().is3xxRedirection()).
+        andReturn();
+
+    assertThat(result.getResponse().getRedirectedUrl())
+        .contains("oauth2/authorization/github");
+  }
+
+  @Test
+  @WithMockOAuth2User(login = "TestUser", roles = "ADMIN")
   @DisplayName("Index page loads")
   void test_01() throws Exception {
     mockMvc.perform(get("/admin")).
@@ -34,6 +47,7 @@ public class AdminControllerTests {
   }
 
   @Test
+  @WithMockOAuth2User(login = "TestUser", roles = "ADMIN")
   @DisplayName("Index page has correct title")
   void test_02() throws Exception {
     MvcResult result = mockMvc.perform(get("/admin")).
@@ -48,6 +62,18 @@ public class AdminControllerTests {
   class CreateTestViewTest {
 
     @Test
+    @DisplayName("Admin page fails to load without user being authenticated")
+    void test_02_5() throws Exception {
+      MvcResult result = mockMvc.perform(get("/admin/createtest")).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl())
+          .contains("oauth2/authorization/github");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ADMIN")
     @DisplayName("createtest page loads")
     void test_03() throws Exception {
       mockMvc.perform(get("/admin/createtest")).
@@ -56,6 +82,7 @@ public class AdminControllerTests {
     }
 
     @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ADMIN")
     @DisplayName("createtest page has correct title")
     void test_02() throws Exception {
       MvcResult result = mockMvc.perform(get("/admin/createtest")).

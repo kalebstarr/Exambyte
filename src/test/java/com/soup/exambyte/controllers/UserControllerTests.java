@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.soup.exambyte.config.MethodSecurityConfig;
 import com.soup.exambyte.config.SecurityConfig;
+import com.soup.exambyte.helper.WithMockOAuth2User;
 import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
@@ -84,6 +85,19 @@ public class UserControllerTests {
     }
 
     @Test
+    @DisplayName("Test page fails to load without user being authenticated")
+    void test_02_5() throws Exception {
+      MvcResult result = mockMvc.perform(get("/test/{testNumber}",
+          testNumber)).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl())
+          .contains("oauth2/authorization/github");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser")
     @DisplayName("Test page loads")
     void test_03() throws Exception {
       mockMvc.perform(get("/test/{testNumber}",
@@ -94,6 +108,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockOAuth2User(login = "TestUser")
     @DisplayName("Test page has correct title")
     void test_04() throws Exception {
       MvcResult result = mockMvc.perform(get("/test/{testNumber}",
@@ -109,6 +124,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockOAuth2User(login = "TestUser")
     @DisplayName("Test view returns correct content according to path variables")
     void test_05() throws Exception {
       mockMvc.perform(get("/test/{testNumber}",
@@ -120,6 +136,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockOAuth2User(login = "TestUser")
     @DisplayName("Test view redirects to '/' with nonexistent testNumber")
     void test_05_5() throws Exception {
       mockMvc.perform(get("/test/{testNumber}",
@@ -148,6 +165,20 @@ public class UserControllerTests {
     }
 
     @Test
+    @DisplayName("Question page fails to load without user being authenticated")
+    void test_05_5() throws Exception {
+      MvcResult result = mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
+              testNumber,
+              questionNumber)).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl())
+          .contains("oauth2/authorization/github");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser")
     @DisplayName("Question page loads")
     void test_06() throws Exception {
       mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
@@ -158,6 +189,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockOAuth2User(login = "TestUser")
     @DisplayName("Question page has correct title")
     void test_07() throws Exception {
       MvcResult result = mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
@@ -174,6 +206,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockOAuth2User(login = "TestUser")
     @DisplayName("Question returns correct content according to path variables")
     void test_08() throws Exception {
       mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
@@ -186,6 +219,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockOAuth2User(login = "TestUser")
     @DisplayName("Question redirects to /test/{testNumber} with nonexistent questionNumber")
     void test_09() throws Exception {
       mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
@@ -197,6 +231,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockOAuth2User(login = "TestUser")
     @DisplayName("Question redirects to '/' with nonexistent testNumber")
     void test_10() throws Exception {
       mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
