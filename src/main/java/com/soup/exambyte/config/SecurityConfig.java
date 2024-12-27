@@ -2,7 +2,6 @@ package com.soup.exambyte.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -15,7 +14,6 @@ public class SecurityConfig {
     chainBuilder.authorizeHttpRequests(
             configurer -> configurer
                 .requestMatchers("/", "/css/*").permitAll()
-                .requestMatchers("admin", "admin/*").hasRole("ADMIN")
                 .anyRequest().authenticated())
             .oauth2Login(config ->
                 config.userInfoEndpoint(

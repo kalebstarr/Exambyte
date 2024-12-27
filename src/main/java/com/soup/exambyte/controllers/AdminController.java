@@ -1,5 +1,7 @@
 package com.soup.exambyte.controllers;
 
+import com.soup.exambyte.config.AdminOnly;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ public class AdminController {
    */
   // TODO: Determine if this mapping is actually needed as it duplicates index() in UserController.
   @GetMapping("")
+  @AdminOnly
   public String adminView(Model model) {
     model.addAttribute("title", "Exambyte - Admin");
     return "index";
@@ -33,6 +36,7 @@ public class AdminController {
    * @return      Returns the "create-test" template.
    */
   @GetMapping("/createtest")
+  @AdminOnly
   public String createTestView(Model model) {
     model.addAttribute("title", "Exambyte - Create Test");
 
