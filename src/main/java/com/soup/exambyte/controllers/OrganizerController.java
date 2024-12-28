@@ -94,8 +94,12 @@ public class OrganizerController {
 
   @GetMapping("/create-test/{questionNumber}")
   @OrganizerOnly
-  public String createQuestionView(Model model) {
+  public String createQuestionView(Model model, HttpSession session) {
     model.addAttribute("title", "Exambyte - Create Question");
+
+    if (session.getAttribute("currentTest") == null) {
+      return "redirect:/admin/create-test";
+    }
 
     return "create-question";
   }

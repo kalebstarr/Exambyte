@@ -240,5 +240,28 @@ public class OrganizerControllerTests {
       String html = result.getResponse().getContentAsString();
       assertThat(html).contains("Add Question");
     }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("Add question page redirects without preexisting session")
+    void test_08() throws Exception {
+      MvcResult result = mockMvc.perform(post("/admin/create-test/{questionNumber}",
+              1).
+              with(csrf())).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      HttpSession session = result.getRequest().getSession();
+
+      assert session != null;
+      assertThat(session.getAttribute("currentTest")).isEqualTo(null);
+      assertThat(result.getResponse().getRedirectedUrl()).
+          contains("/admin/create-test");
+    }
+  }
+
+  @Nested
+  class CreateQuestionTests {
+
   }
 }
