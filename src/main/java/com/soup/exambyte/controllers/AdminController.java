@@ -39,6 +39,6 @@ public class AdminController {
   public String createTestView(Model model) {
     model.addAttribute("title", "Exambyte - Create Test");
 
-    return "create-test";
+    return "create-question";
   }
 }
