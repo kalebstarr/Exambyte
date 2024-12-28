@@ -6,12 +6,14 @@ import com.soup.exambyte.models.Test;
 import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -50,12 +52,12 @@ public class OrganizerController {
   }
 
   /**
-   * Handles requests for default admin URL ("/admin/createtest").
+   * Handles requests for default admin URL ("/admin/create-test").
 
    * @param model The Spring model.
    * @return      Returns the "create-test" template.
    */
-  @GetMapping("/createtest")
+  @GetMapping("/create-test")
   @OrganizerOnly
   public String createTestView(Model model) {
     model.addAttribute("title", "Exambyte - Create Test");
@@ -63,7 +65,15 @@ public class OrganizerController {
     return "create-test";
   }
 
-  @GetMapping("/createtest/{questionNumber}")
+  @PostMapping("/create-test")
+  @OrganizerOnly
+  public String createTest(HttpSession session, TestForm testForm) {
+    System.out.println(testForm.getTestTitle());
+
+    return "redirect:/admin/create-test";
+  }
+
+  @GetMapping("/create-test/{questionNumber}")
   @OrganizerOnly
   public String createQuestionView(Model model) {
     model.addAttribute("title", "Exambyte - Create Question");

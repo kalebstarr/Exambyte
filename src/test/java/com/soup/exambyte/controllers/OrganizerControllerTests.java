@@ -3,7 +3,9 @@ package com.soup.exambyte.controllers;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -85,7 +87,7 @@ public class OrganizerControllerTests {
     @Test
     @DisplayName("Admin page fails to load without user being authenticated")
     void test_02_5() throws Exception {
-      MvcResult result = mockMvc.perform(get("/admin/createtest")).
+      MvcResult result = mockMvc.perform(get("/admin/create-test")).
           andExpect(status().is3xxRedirection()).
           andReturn();
 
@@ -95,23 +97,53 @@ public class OrganizerControllerTests {
 
     @Test
     @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
-    @DisplayName("createtest page loads")
+    @DisplayName("create-test page loads")
     void test_03() throws Exception {
-      mockMvc.perform(get("/admin/createtest")).
+      mockMvc.perform(get("/admin/create-test")).
           andDo(print()).
           andExpect(status().isOk());
     }
 
     @Test
     @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
-    @DisplayName("createtest page has correct title")
+    @DisplayName("create-test page has correct title")
     void test_04() throws Exception {
-      MvcResult result = mockMvc.perform(get("/admin/createtest")).
+      MvcResult result = mockMvc.perform(get("/admin/create-test")).
           andExpect(model().attribute("title", equalTo("Exambyte - Create Test"))).
           andReturn();
 
       String html = result.getResponse().getContentAsString();
       assertThat(html).contains("Create Test");
+    }
+  }
+
+  @Nested
+  class CreateTestTests {
+
+    @Test
+    @DisplayName("Admin page fails to load without user being authenticated")
+    void test_01() throws Exception {
+      MvcResult result = mockMvc.perform(post("/admin/create-test").
+              with(csrf())).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl())
+          .contains("oauth2/authorization/github");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("create-test page loads")
+    void test_02() throws Exception {
+      MvcResult result = mockMvc.perform(post("/admin/create-test").
+              with(csrf())).
+          andDo(print()).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl()).
+          contains("/admin/create-test");
     }
   }
 
@@ -123,7 +155,7 @@ public class OrganizerControllerTests {
     @Test
     @DisplayName("Admin page fails to load without user being authenticated")
     void test_05() throws Exception {
-      MvcResult result = mockMvc.perform(get("/admin/createtest/{questionNumber}",
+      MvcResult result = mockMvc.perform(get("/admin/create-test/{questionNumber}",
               questionNumber)).
           andExpect(status().is3xxRedirection()).
           andReturn();
@@ -136,7 +168,7 @@ public class OrganizerControllerTests {
     @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
     @DisplayName("Add Question page loads")
     void test_06() throws Exception {
-      mockMvc.perform(get("/admin/createtest/{questionNumber}",
+      mockMvc.perform(get("/admin/create-test/{questionNumber}",
               questionNumber)).
           andDo(print()).
           andExpect(status().isOk());
@@ -146,7 +178,7 @@ public class OrganizerControllerTests {
     @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
     @DisplayName("Add Question page has correct title")
     void test_07() throws Exception {
-      MvcResult result = mockMvc.perform(get("/admin/createtest/{questionNumber}",
+      MvcResult result = mockMvc.perform(get("/admin/create-test/{questionNumber}",
               questionNumber)).
           andExpect(model().attribute("title", equalTo("Exambyte - Create Question"))).
           andReturn();
