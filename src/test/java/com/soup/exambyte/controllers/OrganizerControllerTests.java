@@ -20,9 +20,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-@WebMvcTest(AdminController.class)
+@WebMvcTest(OrganizerController.class)
 @Import({SecurityConfig.class, MethodSecurityConfig.class, RolesConfig.class})
-public class AdminControllerTests {
+public class OrganizerControllerTests {
 
   @Autowired
   private MockMvc mockMvc;

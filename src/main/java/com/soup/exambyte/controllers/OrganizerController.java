@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class OrganizerController {
 
   /**
    * Handles requests for default admin URL ("/admin").
