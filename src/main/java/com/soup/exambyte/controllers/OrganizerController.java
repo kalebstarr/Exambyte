@@ -1,9 +1,17 @@
 package com.soup.exambyte.controllers;
 
 import com.soup.exambyte.config.OrganizerOnly;
+import com.soup.exambyte.dto.TestForm;
+import com.soup.exambyte.models.Test;
+import com.soup.exambyte.models.TextQuestion;
+import com.soup.exambyte.services.QuestionService;
+import com.soup.exambyte.services.TestService;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -13,6 +21,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 public class OrganizerController {
+
+  private final TestService testService;
+
+  private final QuestionService questionService;
+
+  public OrganizerController(TestService testService, QuestionService questionService) {
+    this.testService = testService;
+    this.questionService = questionService;
+  }
 
   /**
    * Handles requests for default admin URL ("/admin").
@@ -25,6 +42,10 @@ public class OrganizerController {
   @OrganizerOnly
   public String adminView(Model model) {
     model.addAttribute("title", "Exambyte - Admin");
+
+    Optional<List<Test>> tests = testService.getAllTests();
+    tests.ifPresent(testList -> model.addAttribute("tests", testList));
+
     return "index";
   }
 

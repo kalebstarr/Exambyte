@@ -2,6 +2,7 @@ package com.soup.exambyte.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -11,11 +12,16 @@ import com.soup.exambyte.config.MethodSecurityConfig;
 import com.soup.exambyte.config.RolesConfig;
 import com.soup.exambyte.config.SecurityConfig;
 import com.soup.exambyte.helper.WithMockOAuth2User;
+import com.soup.exambyte.services.QuestionService;
+import com.soup.exambyte.services.TestService;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -26,6 +32,12 @@ public class OrganizerControllerTests {
 
   @Autowired
   private MockMvc mockMvc;
+
+  @MockBean
+  private TestService testService;
+
+  @MockBean
+  private QuestionService questionService;
 
   @Test
   @DisplayName("Admin page fails to load without user being authenticated")
@@ -51,8 +63,16 @@ public class OrganizerControllerTests {
   @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
   @DisplayName("Index page has correct title")
   void test_02() throws Exception {
+    when(testService.getAllTests()).
+        thenReturn(Optional.of(
+            List.of(new com.soup.exambyte.models.Test(
+                1, "Test 1", "Test Description"
+            ))
+        ));
+
     MvcResult result = mockMvc.perform(get("/admin")).
         andExpect(model().attribute("title", equalTo("Exambyte - Admin"))).
+        andExpect(model().attributeExists("tests")).
         andReturn();
 
     String html = result.getResponse().getContentAsString();
