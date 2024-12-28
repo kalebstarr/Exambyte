@@ -39,6 +39,14 @@ public class OrganizerController {
   public String createTestView(Model model) {
     model.addAttribute("title", "Exambyte - Create Test");
 
+    return "create-test";
+  }
+
+  @GetMapping("/createtest/{questionNumber}")
+  @OrganizerOnly
+  public String createQuestionView(Model model) {
+    model.addAttribute("title", "Exambyte - Create Question");
+
     return "create-question";
   }
 }

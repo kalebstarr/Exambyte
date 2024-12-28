@@ -85,13 +85,54 @@ public class OrganizerControllerTests {
     @Test
     @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
     @DisplayName("createtest page has correct title")
-    void test_02() throws Exception {
+    void test_04() throws Exception {
       MvcResult result = mockMvc.perform(get("/admin/createtest")).
           andExpect(model().attribute("title", equalTo("Exambyte - Create Test"))).
           andReturn();
 
       String html = result.getResponse().getContentAsString();
       assertThat(html).contains("Create Test");
+    }
+  }
+
+  @Nested
+  class AddQuestionViewTests {
+
+    private final int questionNumber = 15;
+
+    @Test
+    @DisplayName("Admin page fails to load without user being authenticated")
+    void test_05() throws Exception {
+      MvcResult result = mockMvc.perform(get("/admin/createtest/{questionNumber}",
+              questionNumber)).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl())
+          .contains("oauth2/authorization/github");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("Add Question page loads")
+    void test_06() throws Exception {
+      mockMvc.perform(get("/admin/createtest/{questionNumber}",
+              questionNumber)).
+          andDo(print()).
+          andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("Add Question page has correct title")
+    void test_07() throws Exception {
+      MvcResult result = mockMvc.perform(get("/admin/createtest/{questionNumber}",
+              questionNumber)).
+          andExpect(model().attribute("title", equalTo("Exambyte - Create Question"))).
+          andReturn();
+
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("Add Question");
     }
   }
 }
