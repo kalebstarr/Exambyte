@@ -3,7 +3,6 @@ package com.soup.exambyte.controllers;
 import com.soup.exambyte.config.OrganizerOnly;
 import com.soup.exambyte.dto.TestForm;
 import com.soup.exambyte.models.Test;
-import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
 import jakarta.servlet.http.HttpSession;
@@ -12,9 +11,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 /**
@@ -65,12 +64,32 @@ public class OrganizerController {
     return "create-test";
   }
 
+  /**
+   * Handles post requests for "/admin/create-test" for the case when a question needs to be added.
+
+   * @param session     Jakarta HttpSession.
+   * @param testForm    Basic TestForm including testTitle and testDescription.
+   * @param addQuestion Request parameter to identify between question add and test submission Post request.
+   * @return            Returns a redirect to "/admin/create-test".
+   */
   @PostMapping("/create-test")
   @OrganizerOnly
-  public String createTest(HttpSession session, TestForm testForm) {
-    System.out.println(testForm.getTestTitle());
+  public String createTest(HttpSession session, TestForm testForm,
+      @RequestParam("add-question") String addQuestion) {
 
-    return "redirect:/admin/create-test";
+    Test test = new Test(testForm.getTestTitle(), testForm.getTestDescription());
+    if (session.getAttribute("currentTest") != null) {
+      test = (Test) session.getAttribute("currentTest");
+    }
+
+    session.setAttribute("currentTest", test);
+
+    if (test.getQuestions().isEmpty()) {
+      return "redirect:/admin/create-test/" + 1;
+    }
+
+    int nextQuestionNumber = (test.getQuestions().size() + 1);
+    return "redirect:/admin/create-test/" + nextQuestionNumber;
   }
 
   @GetMapping("/create-test/{questionNumber}")

@@ -2,6 +2,7 @@ package com.soup.exambyte.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -14,8 +15,11 @@ import com.soup.exambyte.config.MethodSecurityConfig;
 import com.soup.exambyte.config.RolesConfig;
 import com.soup.exambyte.config.SecurityConfig;
 import com.soup.exambyte.helper.WithMockOAuth2User;
+import com.soup.exambyte.models.MultipleChoiceQuestion;
+import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -25,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -134,16 +139,65 @@ public class OrganizerControllerTests {
 
     @Test
     @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
-    @DisplayName("create-test page loads")
+    @DisplayName("create-test page loads with add-question request param")
     void test_02() throws Exception {
       MvcResult result = mockMvc.perform(post("/admin/create-test").
-              with(csrf())).
+              with(csrf()).
+              param("add-question", "Add Question")).
           andDo(print()).
           andExpect(status().is3xxRedirection()).
           andReturn();
 
       assertThat(result.getResponse().getRedirectedUrl()).
-          contains("/admin/create-test");
+          contains("/admin/create-test/");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("create-test page loads with add-question request param and no preexisting session")
+    void test_03() throws Exception {
+      MvcResult result = mockMvc.perform(post("/admin/create-test").
+              with(csrf()).
+              param("add-question", "Add Question")).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      HttpSession session = result.getRequest().getSession();
+      assert session != null;
+      com.soup.exambyte.models.Test currentTest = (com.soup.exambyte.models.Test) session.getAttribute("currentTest");
+
+      assertThat(currentTest.getQuestions()).isEmpty();
+      assertThat(result.getResponse().getRedirectedUrl()).
+          contains("/admin/create-test/1");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("create-test page loads with add-question request param and preexisting session")
+    void test_04() throws Exception {
+      com.soup.exambyte.models.Test sampleTest = mock(com.soup.exambyte.models.Test.class);
+      when(sampleTest.getQuestions()).thenReturn(List.of(
+          new TextQuestion("Text Question", "Text Question"),
+          new MultipleChoiceQuestion("MC Question", "MC Question")
+      ));
+      MockHttpSession mockHttpSession = new MockHttpSession();
+      mockHttpSession.setAttribute("currentTest", sampleTest);
+
+      MvcResult result = mockMvc.perform(post("/admin/create-test").
+              with(csrf()).
+              param("add-question", "Add Question").
+              session(mockHttpSession)).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      HttpSession session = result.getRequest().getSession();
+      assert session != null;
+      com.soup.exambyte.models.Test currentTest = (com.soup.exambyte.models.Test)
+          session.getAttribute("currentTest");
+
+      assertThat(currentTest.getQuestions().size()).isEqualTo(2);
+      assertThat(result.getResponse().getRedirectedUrl()).
+          contains("/admin/create-test/3");
     }
   }
 

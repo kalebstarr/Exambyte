@@ -27,6 +27,13 @@ public class Test {
     this.testDescription = testDescription;
   }
 
+  public Test(String testTitle, String testDescription) {
+    // TODO: Change id creation
+    this.id = (long) (Math.random() * 10);
+    this.testTitle = testTitle;
+    this.testDescription = testDescription;
+  }
+
   public long getId() {
     return id;
   }

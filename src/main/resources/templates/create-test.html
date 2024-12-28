@@ -12,7 +12,12 @@
 
     <main>
       <div class="container">
-        <form method="post" class="row g-3" id="testForm" th:action="@{/admin/create-test}">
+        <form
+          method="post"
+          class="row g-3"
+          id="testForm"
+          th:action="@{/admin/create-test}"
+        >
           <div class="border border-secondary rounded p-3">
             <div class="row mb-3">
               <label for="testTitle" class="col-sm-2 col-form-label"
@@ -45,7 +50,22 @@
             </div>
           </div>
           <hr />
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            name="submit"
+            value="Submit"
+          >
+            Submit
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            name="add-question"
+            value="Add Question"
+          >
+            Add Question
+          </button>
         </form>
       </div>
     </main>
