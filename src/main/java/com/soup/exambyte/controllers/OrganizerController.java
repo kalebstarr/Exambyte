@@ -84,15 +84,10 @@ public class OrganizerController {
 
     session.setAttribute("currentTest", test);
 
-    if (test.getQuestions().isEmpty()) {
-      return "redirect:/admin/create-test/" + 1;
-    }
-
-    int nextQuestionNumber = (test.getQuestions().size() + 1);
-    return "redirect:/admin/create-test/" + nextQuestionNumber;
+    return "redirect:/admin/create-test/create-question";
   }
 
-  @GetMapping("/create-test/{questionNumber}")
+  @GetMapping("/create-test/create-question")
   @OrganizerOnly
   public String createQuestionView(Model model, HttpSession session) {
     model.addAttribute("title", "Exambyte - Create Question");

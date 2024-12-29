@@ -168,7 +168,7 @@ public class OrganizerControllerTests {
 
       assertThat(currentTest.getQuestions()).isEmpty();
       assertThat(result.getResponse().getRedirectedUrl()).
-          contains("/admin/create-test/1");
+          contains("/admin/create-test/create-question");
     }
 
     @Test
@@ -197,20 +197,17 @@ public class OrganizerControllerTests {
 
       assertThat(currentTest.getQuestions().size()).isEqualTo(2);
       assertThat(result.getResponse().getRedirectedUrl()).
-          contains("/admin/create-test/3");
+          contains("/admin/create-test/create-question");
     }
   }
 
   @Nested
   class AddQuestionViewTests {
 
-    private final int questionNumber = 15;
-
     @Test
     @DisplayName("Admin page fails to load without user being authenticated")
     void test_05() throws Exception {
-      MvcResult result = mockMvc.perform(get("/admin/create-test/{questionNumber}",
-              questionNumber)).
+      MvcResult result = mockMvc.perform(get("/admin/create-test/create-question")).
           andExpect(status().is3xxRedirection()).
           andReturn();
 
@@ -220,34 +217,36 @@ public class OrganizerControllerTests {
 
     @Test
     @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
-    @DisplayName("Add Question page loads")
+    @DisplayName("Add Question page loads with preexisting session")
     void test_06() throws Exception {
-      mockMvc.perform(get("/admin/create-test/{questionNumber}",
-              questionNumber)).
-          andDo(print()).
-          andExpect(status().isOk());
-    }
+      com.soup.exambyte.models.Test sampleTest = mock(com.soup.exambyte.models.Test.class);
+      when(sampleTest.getQuestions()).thenReturn(List.of(
+          new TextQuestion("Text Question", "Text Question"),
+          new MultipleChoiceQuestion("MC Question", "MC Question")
+      ));
+      MockHttpSession mockHttpSession = new MockHttpSession();
+      mockHttpSession.setAttribute("currentTest", sampleTest);
 
-    @Test
-    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
-    @DisplayName("Add Question page has correct title")
-    void test_07() throws Exception {
-      MvcResult result = mockMvc.perform(get("/admin/create-test/{questionNumber}",
-              questionNumber)).
+      MvcResult result = mockMvc.perform(get("/admin/create-test/create-question").
+              session(mockHttpSession)).
+          andDo(print()).
           andExpect(model().attribute("title", equalTo("Exambyte - Create Question"))).
+          andExpect(status().isOk()).
           andReturn();
 
-      String html = result.getResponse().getContentAsString();
-      assertThat(html).contains("Add Question");
+      HttpSession session = result.getRequest().getSession();
+      assert session != null;
+      com.soup.exambyte.models.Test currentTest = (com.soup.exambyte.models.Test)
+          session.getAttribute("currentTest");
+
+      assertThat(currentTest.getQuestions().size()).isEqualTo(2);
     }
 
     @Test
     @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
     @DisplayName("Add question page redirects without preexisting session")
     void test_08() throws Exception {
-      MvcResult result = mockMvc.perform(post("/admin/create-test/{questionNumber}",
-              1).
-              with(csrf())).
+      MvcResult result = mockMvc.perform(get("/admin/create-test/create-question")).
           andExpect(status().is3xxRedirection()).
           andReturn();
 
@@ -258,10 +257,5 @@ public class OrganizerControllerTests {
       assertThat(result.getResponse().getRedirectedUrl()).
           contains("/admin/create-test");
     }
-  }
-
-  @Nested
-  class CreateQuestionTests {
-
   }
 }
