@@ -105,7 +105,7 @@ public class OrganizerController {
 
     if (submit != null) {
       // TODO: Write test into database
-      session.invalidate();
+      session.removeAttribute("currentTest");
 
       return "redirect:/admin";
     }
