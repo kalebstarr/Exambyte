@@ -88,7 +88,8 @@ public class OrganizerController {
   @OrganizerOnly
   public String createTest(HttpSession session, TestForm testForm,
       @RequestParam(value = "add-question", required = false) String addQuestion,
-      @RequestParam(value = "submit", required = false) String submit) {
+      @RequestParam(value = "submit", required = false) String submit,
+      @RequestParam(value = "cancel", required = false) String cancel) {
 
     if (addQuestion != null) {
       Test test = new Test(testForm.getTestTitle(), testForm.getTestDescription());
@@ -105,6 +106,12 @@ public class OrganizerController {
 
     if (submit != null) {
       // TODO: Write test into database
+      session.removeAttribute("currentTest");
+
+      return "redirect:/admin";
+    }
+
+    if (cancel != null) {
       session.removeAttribute("currentTest");
 
       return "redirect:/admin";

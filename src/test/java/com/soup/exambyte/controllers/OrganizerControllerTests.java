@@ -253,6 +253,23 @@ public class OrganizerControllerTests {
 
       MvcResult result = mockMvc.perform(post("/admin/create-test").
               with(csrf()).
+              param("cancel", "Cancel").
+              session(mockHttpSession)).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl()).
+          contains("/admin");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("create-test page loads without request param and with preexisting session")
+    void test_07() throws Exception {
+      MockHttpSession mockHttpSession = new MockHttpSession();
+
+      MvcResult result = mockMvc.perform(post("/admin/create-test").
+              with(csrf()).
               session(mockHttpSession)).
           andExpect(status().is3xxRedirection()).
           andReturn();
