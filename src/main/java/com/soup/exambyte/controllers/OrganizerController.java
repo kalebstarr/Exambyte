@@ -1,8 +1,11 @@
 package com.soup.exambyte.controllers;
 
 import com.soup.exambyte.config.OrganizerOnly;
+import com.soup.exambyte.dto.QuestionForm;
 import com.soup.exambyte.dto.TestForm;
+import com.soup.exambyte.models.Question;
 import com.soup.exambyte.models.Test;
+import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
 import jakarta.servlet.http.HttpSession;
@@ -97,5 +100,23 @@ public class OrganizerController {
     }
 
     return "create-question";
+  }
+
+  @PostMapping("/create-test/create-question")
+  @OrganizerOnly
+  public String createQuestion(HttpSession session, QuestionForm questionForm) {
+
+    if (session.getAttribute("currentTest") == null) {
+      return "redirect:/admin/create-test";
+    }
+
+    Test test = (Test) session.getAttribute("currentTest");
+    Question question = new TextQuestion(questionForm.getQuestionTitle(),
+        questionForm.getQuestionDescription());
+    test.addQuestion(question);
+
+    session.setAttribute("currentTest", test);
+
+    return "redirect:/admin/create-test";
   }
 }

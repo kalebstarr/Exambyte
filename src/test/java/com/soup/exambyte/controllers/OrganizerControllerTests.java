@@ -258,4 +258,62 @@ public class OrganizerControllerTests {
           contains("/admin/create-test");
     }
   }
+
+  @Nested
+  class CreateQuestionTests {
+
+    @Test
+    @DisplayName("Admin page fails to load without user being authenticated")
+    void test_01() throws Exception {
+      MvcResult result = mockMvc.perform(post("/admin/create-test/create-question").
+              with(csrf())).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl())
+          .contains("oauth2/authorization/github");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("Add Question post redirects without preexisting session")
+    void test_02() throws Exception {
+      MvcResult result = mockMvc.perform(post("/admin/create-test/create-question").
+              with(csrf())).
+          andDo(print()).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl()).
+          contains("/admin/create-test");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("Add question post redirects with preexisting session")
+    void test_04() throws Exception {
+      com.soup.exambyte.models.Test sampleTest = mock(com.soup.exambyte.models.Test.class);
+      when(sampleTest.getQuestions()).thenReturn(List.of(
+          new TextQuestion("Text Question", "Text Question"),
+          new MultipleChoiceQuestion("MC Question", "MC Question")
+      ));
+      MockHttpSession mockHttpSession = new MockHttpSession();
+      mockHttpSession.setAttribute("currentTest", sampleTest);
+
+      MvcResult result = mockMvc.perform(post("/admin/create-test/create-question").
+              with(csrf()).
+              session(mockHttpSession)).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      HttpSession session = result.getRequest().getSession();
+      assert session != null;
+      com.soup.exambyte.models.Test currentTest = (com.soup.exambyte.models.Test)
+          session.getAttribute("currentTest");
+
+      assertThat(currentTest.getQuestions().size()).isEqualTo(2);
+      assertThat(result.getResponse().getRedirectedUrl()).
+          contains("/admin/create-test");
+    }
+  }
 }
