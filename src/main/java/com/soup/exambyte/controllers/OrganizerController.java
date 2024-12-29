@@ -87,18 +87,30 @@ public class OrganizerController {
   @PostMapping("/create-test")
   @OrganizerOnly
   public String createTest(HttpSession session, TestForm testForm,
-      @RequestParam("add-question") String addQuestion) {
+      @RequestParam(value = "add-question", required = false) String addQuestion,
+      @RequestParam(value = "submit", required = false) String submit) {
 
-    Test test = new Test(testForm.getTestTitle(), testForm.getTestDescription());
-    if (session.getAttribute("currentTest") != null) {
-      test = (Test) session.getAttribute("currentTest");
-      test.setTestTitle(testForm.getTestTitle());
-      test.setTestDescription(testForm.getTestDescription());
+    if (addQuestion != null) {
+      Test test = new Test(testForm.getTestTitle(), testForm.getTestDescription());
+      if (session.getAttribute("currentTest") != null) {
+        test = (Test) session.getAttribute("currentTest");
+        test.setTestTitle(testForm.getTestTitle());
+        test.setTestDescription(testForm.getTestDescription());
+      }
+
+      session.setAttribute("currentTest", test);
+
+      return "redirect:/admin/create-test/create-question";
     }
 
-    session.setAttribute("currentTest", test);
+    if (submit != null) {
+      // TODO: Write test into database
+      session.invalidate();
 
-    return "redirect:/admin/create-test/create-question";
+      return "redirect:/admin";
+    }
+
+    return "redirect:/admin/create-test";
   }
 
   @GetMapping("/create-test/create-question")

@@ -219,6 +219,47 @@ public class OrganizerControllerTests {
       assertThat(result.getResponse().getRedirectedUrl()).
           contains("/admin/create-test/create-question");
     }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("create-test page loads with submit request param and preexisting session")
+    void test_05() throws Exception {
+      com.soup.exambyte.models.Test sampleTest = mock(com.soup.exambyte.models.Test.class);
+      MockHttpSession mockHttpSession = new MockHttpSession();
+      mockHttpSession.setAttribute("currentTest", sampleTest);
+
+      MvcResult result = mockMvc.perform(post("/admin/create-test").
+              with(csrf()).
+              param("submit", "Submit").
+              session(mockHttpSession)).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      HttpSession session = result.getRequest().getSession();
+      assert session != null;
+      com.soup.exambyte.models.Test currentTest = (com.soup.exambyte.models.Test)
+          session.getAttribute("currentTest");
+
+      assertThat(currentTest).isEqualTo(null);
+      assertThat(result.getResponse().getRedirectedUrl()).
+          contains("/admin");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("create-test page loads without request param and with preexisting session")
+    void test_06() throws Exception {
+      MockHttpSession mockHttpSession = new MockHttpSession();
+
+      MvcResult result = mockMvc.perform(post("/admin/create-test").
+              with(csrf()).
+              session(mockHttpSession)).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl()).
+          contains("/admin/create-test");
+    }
   }
 
   @Nested
