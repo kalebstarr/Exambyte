@@ -61,8 +61,17 @@ public class OrganizerController {
    */
   @GetMapping("/create-test")
   @OrganizerOnly
-  public String createTestView(Model model) {
+  public String createTestView(Model model, HttpSession session) {
     model.addAttribute("title", "Exambyte - Create Test");
+
+    if (session.getAttribute("currentTest") != null) {
+      Test test = (Test) session.getAttribute("currentTest");
+      model.addAttribute("test", test);
+      model.addAttribute("questions", test.getQuestions());
+    } else {
+      Test test = new Test("", "");
+      model.addAttribute("test", test);
+    }
 
     return "create-test";
   }
@@ -83,6 +92,8 @@ public class OrganizerController {
     Test test = new Test(testForm.getTestTitle(), testForm.getTestDescription());
     if (session.getAttribute("currentTest") != null) {
       test = (Test) session.getAttribute("currentTest");
+      test.setTestTitle(testForm.getTestTitle());
+      test.setTestDescription(testForm.getTestDescription());
     }
 
     session.setAttribute("currentTest", test);

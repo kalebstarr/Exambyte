@@ -111,14 +111,34 @@ public class OrganizerControllerTests {
 
     @Test
     @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
-    @DisplayName("create-test page has correct title")
+    @DisplayName("create-test page without session has correct title and attributes")
     void test_04() throws Exception {
       MvcResult result = mockMvc.perform(get("/admin/create-test")).
           andExpect(model().attribute("title", equalTo("Exambyte - Create Test"))).
+          andExpect(model().attributeExists("test")).
           andReturn();
 
       String html = result.getResponse().getContentAsString();
       assertThat(html).contains("Create Test");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("create-test page with session has correct attributes")
+    void test_05() throws Exception {
+      com.soup.exambyte.models.Test sampleTest = mock(com.soup.exambyte.models.Test.class);
+      when(sampleTest.getQuestions()).thenReturn(List.of(
+          new TextQuestion("Text Question", "Text Question"),
+          new MultipleChoiceQuestion("MC Question", "MC Question")
+      ));
+      MockHttpSession mockHttpSession = new MockHttpSession();
+      mockHttpSession.setAttribute("currentTest", sampleTest);
+
+      MvcResult result = mockMvc.perform(get("/admin/create-test").
+              session(mockHttpSession)).
+          andExpect(model().attributeExists("test")).
+          andExpect(model().attributeExists("questions")).
+          andReturn();
     }
   }
 

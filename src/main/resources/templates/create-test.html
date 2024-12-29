@@ -30,6 +30,7 @@
                   id="testTitle"
                   name="testTitle"
                   placeholder="Test Title"
+                  th:value="${test.testTitle}"
                   required
                 />
               </div>
@@ -44,9 +45,30 @@
                   id="testDescription"
                   name="testDescription"
                   placeholder="Test Description"
+                  th:text="${test.testDescription}"
                   required
                 ></textarea>
               </div>
+            </div>
+          </div>
+
+
+          <div>
+            <h2 th:if="${not #lists.isEmpty(questions)}">Questions</h2>
+            <div
+                class="content-box"
+                th:each="question : ${questions}"
+            >
+              <a
+                  class="btn btn-outline-primary w-100"
+                  role="button"
+                  th:href="@{'/admin/create-test/' + ${question.id}}"
+              >
+                <h3 th:text="${question.questionTitle}">Question title placeholder</h3>
+                <p th:text="${question.questionDescription}">
+                  Question description placeholder
+                </p>
+              </a>
             </div>
           </div>
           <hr />

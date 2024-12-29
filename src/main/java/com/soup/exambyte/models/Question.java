@@ -16,6 +16,7 @@ public abstract class Question {
    * @param questionDescription The description of the question.
    */
   public Question(String questionTitle, String questionDescription) {
+    this.id = (long) (Math.random() * 10);
     this.questionTitle = questionTitle;
     this.questionDescription = questionDescription;
   }
@@ -36,5 +37,11 @@ public abstract class Question {
     this.questionDescription = questionDescription;
   }
 
-  // TODO: Determine if setters are necessary.
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 }
