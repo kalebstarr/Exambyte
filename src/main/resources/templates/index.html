@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  data-bs-theme="dark"
+  xmlns:sec="http://www.w3.org/1999/xhtml"
+>
   <th:block th:insert="~{fragments :: head}" />
   <body>
     <th:block th:insert="~{fragments :: navigation}" />
@@ -32,7 +36,7 @@
         </div>
 
         <div sec:authorize="hasRole('ROLE_ORGANIZER')">
-          <hr>
+          <hr />
           <div class="row">
             <div class="d-grid gap-2 col-6 mx-auto content-box">
               <a href="/admin/create-test" class="btn btn-success">Add Test</a>

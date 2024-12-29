@@ -52,19 +52,21 @@
             </div>
           </div>
 
+          <hr />
 
           <div>
-            <h2 th:if="${not #lists.isEmpty(questions)}">Questions</h2>
-            <div
-                class="content-box"
-                th:each="question : ${questions}"
-            >
+            <h2>Questions</h2>
+            <p th:if="${#lists.isEmpty(questions)}">No tests currently</p>
+            <div class="content-box" th:each="question : ${questions}">
+              <!-- TODO: Add functionality to link. Currently leads nowhere -->
               <a
-                  class="btn btn-outline-primary w-100"
-                  role="button"
-                  th:href="@{'/admin/create-test/' + ${question.id}}"
+                class="btn btn-outline-primary w-100"
+                role="button"
+                th:href="@{'/admin/create-test/' + ${question.id}}"
               >
-                <h3 th:text="${question.questionTitle}">Question title placeholder</h3>
+                <h3 th:text="${question.questionTitle}">
+                  Question title placeholder
+                </h3>
                 <p th:text="${question.questionDescription}">
                   Question description placeholder
                 </p>
