@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class MultipleChoiceQuestion extends Question {
 
-  private final List<String> options = new ArrayList<>();
+  private List<String> options = new ArrayList<>();
   private final List<Integer> correctOptionIndices = new ArrayList<>();
 
   /**
@@ -20,6 +20,12 @@ public class MultipleChoiceQuestion extends Question {
    */
   public MultipleChoiceQuestion(String questionTitle, String questionDescription) {
     super(questionTitle, questionDescription);
+  }
+
+  public MultipleChoiceQuestion(String questionTitle, String questionDescription,
+      List<String> options) {
+    super(questionTitle, questionDescription);
+    this.options = options;
   }
 
   public List<String> getOptions() {
