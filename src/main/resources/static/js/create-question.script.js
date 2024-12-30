@@ -1,15 +1,15 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const questionType = document.getElementById('questionType');
-  const questionContainer = document.getElementById('questionContainer');
+document.addEventListener("DOMContentLoaded", function () {
+  const questionType = document.getElementById("questionType");
+  const questionContainer = document.getElementById("questionContainer");
 
-  questionType.addEventListener('change', function () {
+  questionType.addEventListener("change", function () {
     const selectedType = questionType.value;
-    let additionalContent = document.getElementById('additionalContent');
+    let additionalContent = document.getElementById("additionalContent");
 
-    if (selectedType === 'Multiple Choice') {
+    if (selectedType === "Multiple Choice") {
       if (!additionalContent) {
-        additionalContent = document.createElement('div');
-        additionalContent.id = 'additionalContent';
+        additionalContent = document.createElement("div");
+        additionalContent.id = "additionalContent";
         additionalContent.innerHTML = `
                 <hr>
                 <div id="optionContainer">
@@ -28,16 +28,16 @@ document.addEventListener('DOMContentLoaded', function () {
               `;
         questionContainer.appendChild(additionalContent);
 
-        const addOption = document.getElementById('add-option');
-        const optionContainer = document.getElementById('optionContainer');
+        const addOption = document.getElementById("add-option");
+        const optionContainer = document.getElementById("optionContainer");
         let optionCount = 1;
 
-        addOption.addEventListener('click', function (event) {
+        addOption.addEventListener("click", function (event) {
           event.preventDefault();
           optionCount++;
 
-          const newOption = document.createElement('div');
-          newOption.classList.add('row', 'mb-3');
+          const newOption = document.createElement("div");
+          newOption.classList.add("row", "mb-3");
           newOption.innerHTML = `
                   <label for="option${optionCount}" class="col-sm-2 col-form-label">Option ${optionCount}</label>
                   <div class="col-sm-1">
