@@ -15,7 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div id="optionContainer">
                   <div class="row mb-3">
                     <label for="option1" class="col-sm-2 col-form-label">Option 1</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-1">
+                      <input type="checkbox" class="btn-check" id="correctOption1" name="correctOptions[]" />
+                      <label for="correctOption1" class="btn btn-outline-primary">Correct</label>
+                    </div>
+                    <div class="col-sm-9">
                       <input type="text" class="form-control" id="option1" name="options[]" placeholder="Option 1" required />
                     </div>
                   </div>
@@ -36,7 +40,11 @@ document.addEventListener('DOMContentLoaded', function () {
           newOption.classList.add('row', 'mb-3');
           newOption.innerHTML = `
                   <label for="option${optionCount}" class="col-sm-2 col-form-label">Option ${optionCount}</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-1">
+                    <input type="checkbox" class="btn-check" id="correctOption${optionCount}" name="correctOptions[]" />
+                      <label for="correctOption${optionCount}" class="btn btn-outline-primary">Correct</label>
+                  </div>
+                  <div class="col-sm-9">
                     <input type="text" class="form-control" id="option${optionCount}" name="options[]" placeholder="Option ${optionCount}" required />
                   </div>
                `;
