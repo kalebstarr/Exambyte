@@ -393,5 +393,37 @@ public class OrganizerControllerTests {
       assertThat(result.getResponse().getRedirectedUrl()).
           contains("/admin/create-test");
     }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("Add multiple choice question")
+    void test_05() throws Exception {
+      com.soup.exambyte.models.Test sampleTest = new com.soup.exambyte.models.Test("Sample Test",
+          "Sample Description");
+      MockHttpSession mockHttpSession = new MockHttpSession();
+      mockHttpSession.setAttribute("currentTest", sampleTest);
+
+      MvcResult result = mockMvc.perform(post("/admin/create-test/create-question")
+              .with(csrf())
+              .session(mockHttpSession)
+              .param("questionType", "Multiple Choice")
+              .param("questionTitle", "Sample MC Question")
+              .param("questionDescription", "Sample Description")
+              .param("options[0]", "Option 1")
+              .param("options[1]", "Option 2")
+              .param("options[2]", "Option 3"))
+          .andExpect(status().is3xxRedirection())
+          .andReturn();
+
+      HttpSession session = result.getRequest().getSession();
+      assert session != null;
+      com.soup.exambyte.models.Test currentTest = (com.soup.exambyte.models.Test) session.getAttribute("currentTest");
+    
+      assertThat(currentTest.getQuestions().size()).isEqualTo(1);
+      assertThat(currentTest.getQuestions().getFirst()).isInstanceOf(MultipleChoiceQuestion.class);
+      MultipleChoiceQuestion mcQuestion = (MultipleChoiceQuestion) currentTest.getQuestions().getFirst();
+      assertThat(mcQuestion.getOptions()).containsExactly("Option 1", "Option 2", "Option 3");
+      assertThat(result.getResponse().getRedirectedUrl()).contains("/admin/create-test");
+    }
   }
 }
