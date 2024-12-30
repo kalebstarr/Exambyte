@@ -403,15 +403,15 @@ public class OrganizerControllerTests {
       MockHttpSession mockHttpSession = new MockHttpSession();
       mockHttpSession.setAttribute("currentTest", sampleTest);
 
-      MvcResult result = mockMvc.perform(post("/admin/create-test/create-question")
-              .with(csrf())
-              .session(mockHttpSession)
-              .param("questionType", "Multiple Choice")
-              .param("questionTitle", "Sample MC Question")
-              .param("questionDescription", "Sample Description")
-              .param("options[0]", "Option 1")
-              .param("options[1]", "Option 2")
-              .param("options[2]", "Option 3"))
+      MvcResult result = mockMvc.perform(post("/admin/create-test/create-question").
+              with(csrf()).
+              session(mockHttpSession).
+              param("questionType", "Multiple Choice").
+              param("questionTitle", "Sample MC Question").
+              param("questionDescription", "Sample Description").
+              param("options[0]", "Option 1").
+              param("options[1]", "Option 2").
+              param("options[2]", "Option 3"))
           .andExpect(status().is3xxRedirection())
           .andReturn();
 

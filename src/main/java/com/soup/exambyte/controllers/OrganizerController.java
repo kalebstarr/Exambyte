@@ -149,8 +149,6 @@ public class OrganizerController {
           questionForm.getQuestionDescription(),
           questionForm.getOptions(),
           questionForm.getCorrectOptions());
-
-      questionForm.getCorrectOptions().forEach(System.out::println);
     } else {
       question = new TextQuestion(questionForm.getQuestionTitle(),
           questionForm.getQuestionDescription());
