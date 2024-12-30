@@ -8,19 +8,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (selectedType === "Multiple Choice") {
       if (!additionalContent) {
+        let optionCount = 1;
         additionalContent = document.createElement("div");
         additionalContent.id = "additionalContent";
         additionalContent.innerHTML = `
                 <hr>
                 <div id="optionContainer">
                   <div class="row mb-3">
-                    <label for="option1" class="col-sm-2 col-form-label">Option 1</label>
+                    <label for="option${optionCount}" class="col-sm-2 col-form-label">Option ${optionCount}</label>
                     <div class="col-sm-1">
-                      <input type="checkbox" class="btn-check" id="correctOption1" name="correctOptions[]" autocomplete="off" value="1" />
-                      <label for="correctOption1" class="btn btn-outline-primary">Correct</label>
+                      <input type="checkbox" class="btn-check" id="correctOption${optionCount}" name="correctOptions[]" autocomplete="off" value="${optionCount}" />
+                      <label for="correctOption${optionCount}" class="btn btn-outline-primary">Correct</label>
                     </div>
                     <div class="col-sm-9">
-                      <input type="text" class="form-control" id="option1" name="options[]" placeholder="Option 1" required />
+                      <input type="text" class="form-control" id="option${optionCount}" name="options[]" placeholder="Option ${optionCount}" required />
                     </div>
                   </div>
                 </div>
@@ -30,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const addOption = document.getElementById("add-option");
         const optionContainer = document.getElementById("optionContainer");
-        let optionCount = 1;
 
         addOption.addEventListener("click", function (event) {
           event.preventDefault();
