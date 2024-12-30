@@ -1,22 +1,27 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const questionType = document.getElementById('questionType');
-  const questionContainer = document.getElementById('questionContainer');
+document.addEventListener("DOMContentLoaded", function () {
+  const questionType = document.getElementById("questionType");
+  const questionContainer = document.getElementById("questionContainer");
 
-  questionType.addEventListener('change', function () {
+  questionType.addEventListener("change", function () {
     const selectedType = questionType.value;
-    let additionalContent = document.getElementById('additionalContent');
+    let additionalContent = document.getElementById("additionalContent");
 
-    if (selectedType === 'Multiple Choice') {
+    if (selectedType === "Multiple Choice") {
       if (!additionalContent) {
-        additionalContent = document.createElement('div');
-        additionalContent.id = 'additionalContent';
+        let optionCount = 1;
+        additionalContent = document.createElement("div");
+        additionalContent.id = "additionalContent";
         additionalContent.innerHTML = `
                 <hr>
                 <div id="optionContainer">
                   <div class="row mb-3">
-                    <label for="option1" class="col-sm-2 col-form-label">Option 1</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="option1" name="options[]" placeholder="Option 1" required />
+                    <label for="option${optionCount}" class="col-sm-2 col-form-label">Option ${optionCount}</label>
+                    <div class="col-sm-1">
+                      <input type="checkbox" class="btn-check" id="correctOption${optionCount}" name="correctOptions[]" autocomplete="off" value="${optionCount}" />
+                      <label for="correctOption${optionCount}" class="btn btn-outline-primary">Correct</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="option${optionCount}" name="options[]" placeholder="Option ${optionCount}" required />
                     </div>
                   </div>
                 </div>
@@ -24,19 +29,22 @@ document.addEventListener('DOMContentLoaded', function () {
               `;
         questionContainer.appendChild(additionalContent);
 
-        const addOption = document.getElementById('add-option');
-        const optionContainer = document.getElementById('optionContainer');
-        let optionCount = 1;
+        const addOption = document.getElementById("add-option");
+        const optionContainer = document.getElementById("optionContainer");
 
-        addOption.addEventListener('click', function (event) {
+        addOption.addEventListener("click", function (event) {
           event.preventDefault();
           optionCount++;
 
-          const newOption = document.createElement('div');
-          newOption.classList.add('row', 'mb-3');
+          const newOption = document.createElement("div");
+          newOption.classList.add("row", "mb-3");
           newOption.innerHTML = `
                   <label for="option${optionCount}" class="col-sm-2 col-form-label">Option ${optionCount}</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-1">
+                    <input type="checkbox" class="btn-check" id="correctOption${optionCount}" name="correctOptions[]" autocomplete="off" value="${optionCount}" />
+                    <label for="correctOption${optionCount}" class="btn btn-outline-primary">Correct</label>
+                  </div>
+                  <div class="col-sm-9">
                     <input type="text" class="form-control" id="option${optionCount}" name="options[]" placeholder="Option ${optionCount}" required />
                   </div>
                `;
@@ -49,4 +57,4 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   });
-});1
+});
