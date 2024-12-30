@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   <div class="row mb-3">
                     <label for="option1" class="col-sm-2 col-form-label">Option 1</label>
                     <div class="col-sm-1">
-                      <input type="checkbox" class="btn-check" id="correctOption1" name="correctOptions[]" />
+                      <input type="checkbox" class="btn-check" id="correctOption1" name="correctOptions[]" autocomplete="off" value="1" />
                       <label for="correctOption1" class="btn btn-outline-primary">Correct</label>
                     </div>
                     <div class="col-sm-9">
@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
           newOption.innerHTML = `
                   <label for="option${optionCount}" class="col-sm-2 col-form-label">Option ${optionCount}</label>
                   <div class="col-sm-1">
-                    <input type="checkbox" class="btn-check" id="correctOption${optionCount}" name="correctOptions[]" />
-                      <label for="correctOption${optionCount}" class="btn btn-outline-primary">Correct</label>
+                    <input type="checkbox" class="btn-check" id="correctOption${optionCount}" name="correctOptions[]" autocomplete="off" value="${optionCount}" />
+                    <label for="correctOption${optionCount}" class="btn btn-outline-primary">Correct</label>
                   </div>
                   <div class="col-sm-9">
                     <input type="text" class="form-control" id="option${optionCount}" name="options[]" placeholder="Option ${optionCount}" required />
@@ -57,4 +57,4 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   });
-});1
+});

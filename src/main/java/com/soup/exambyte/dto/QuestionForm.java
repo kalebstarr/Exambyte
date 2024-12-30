@@ -9,7 +9,7 @@ public class QuestionForm {
   private String questionTitle;
   private String questionDescription;
   private List<String> options;
-  private List<Boolean> correctOptions;
+  private List<Integer> correctOptions;
 
   public String getQuestionType() {
     return questionType;
@@ -43,11 +43,11 @@ public class QuestionForm {
     this.options = options;
   }
 
-  public List<Boolean> getCorrectOptions() {
+  public List<Integer> getCorrectOptions() {
     return correctOptions;
   }
 
-  public void setCorrectOptions(List<Boolean> correctOptions) {
+  public void setCorrectOptions(List<Integer> correctOptions) {
     this.correctOptions = correctOptions;
   }
 }

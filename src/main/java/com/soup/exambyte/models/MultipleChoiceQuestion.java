@@ -10,7 +10,7 @@ import java.util.List;
 public class MultipleChoiceQuestion extends Question {
 
   private List<String> options = new ArrayList<>();
-  private final List<Integer> correctOptionIndices = new ArrayList<>();
+  private List<Integer> correctOptionIndices = new ArrayList<>();
 
   /**
    * Constructor for a MultipleChoiceQuestion object with questionTitle and questionDescription.
@@ -23,9 +23,10 @@ public class MultipleChoiceQuestion extends Question {
   }
 
   public MultipleChoiceQuestion(String questionTitle, String questionDescription,
-      List<String> options) {
+      List<String> options, List<Integer> correctOptions) {
     super(questionTitle, questionDescription);
     this.options = options;
+    this.correctOptionIndices = correctOptions;
   }
 
   public List<String> getOptions() {

@@ -146,7 +146,11 @@ public class OrganizerController {
 
     if ("Multiple Choice".equals(questionForm.getQuestionType())) {
       question = new MultipleChoiceQuestion(questionForm.getQuestionTitle(),
-          questionForm.getQuestionDescription(), questionForm.getOptions());
+          questionForm.getQuestionDescription(),
+          questionForm.getOptions(),
+          questionForm.getCorrectOptions());
+
+      questionForm.getCorrectOptions().forEach(System.out::println);
     } else {
       question = new TextQuestion(questionForm.getQuestionTitle(),
           questionForm.getQuestionDescription());
