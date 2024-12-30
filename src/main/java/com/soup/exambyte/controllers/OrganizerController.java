@@ -3,6 +3,7 @@ package com.soup.exambyte.controllers;
 import com.soup.exambyte.config.OrganizerOnly;
 import com.soup.exambyte.dto.QuestionForm;
 import com.soup.exambyte.dto.TestForm;
+import com.soup.exambyte.models.MultipleChoiceQuestion;
 import com.soup.exambyte.models.Question;
 import com.soup.exambyte.models.Test;
 import com.soup.exambyte.models.TextQuestion;
@@ -141,10 +142,17 @@ public class OrganizerController {
     }
 
     Test test = (Test) session.getAttribute("currentTest");
-    Question question = new TextQuestion(questionForm.getQuestionTitle(),
-        questionForm.getQuestionDescription());
-    test.addQuestion(question);
+    Question question;
 
+    if ("Multiple Choice".equals(questionForm.getQuestionType())) {
+      question = new MultipleChoiceQuestion(questionForm.getQuestionTitle(),
+          questionForm.getQuestionDescription(), questionForm.getOptions());
+    } else {
+      question = new TextQuestion(questionForm.getQuestionTitle(),
+          questionForm.getQuestionDescription());
+    }
+
+    test.addQuestion(question);
     session.setAttribute("currentTest", test);
 
     return "redirect:/admin/create-test";

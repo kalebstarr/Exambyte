@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   <div class="row mb-3">
                     <label for="option1" class="col-sm-2 col-form-label">Option 1</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="option1" name="option1" placeholder="Option 1" required />
+                      <input type="text" class="form-control" id="option1" name="options[]" placeholder="Option 1" required />
                     </div>
                   </div>
                 </div>
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
         questionContainer.appendChild(additionalContent);
 
         const addOption = document.getElementById('add-option');
-        const optionContainer = document.getElementById('optionContainer')
+        const optionContainer = document.getElementById('optionContainer');
         let optionCount = 1;
 
         addOption.addEventListener('click', function (event) {
@@ -33,15 +33,15 @@ document.addEventListener('DOMContentLoaded', function () {
           optionCount++;
 
           const newOption = document.createElement('div');
-          newOption.classList.add('row', 'mb-3')
+          newOption.classList.add('row', 'mb-3');
           newOption.innerHTML = `
                   <label for="option${optionCount}" class="col-sm-2 col-form-label">Option ${optionCount}</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="option${optionCount}" name="option${optionCount}" placeholder="Option ${optionCount}" required />
+                    <input type="text" class="form-control" id="option${optionCount}" name="options[]" placeholder="Option ${optionCount}" required />
                   </div>
                `;
           optionContainer.appendChild(newOption);
-        })
+        });
       }
     } else {
       if (additionalContent) {
@@ -49,4 +49,4 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   });
-});
+});1

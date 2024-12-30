@@ -1,10 +1,22 @@
 package com.soup.exambyte.dto;
 
 
+import java.util.List;
+
 public class QuestionForm {
 
+  private String questionType;
   private String questionTitle;
   private String questionDescription;
+  private List<String> options;
+
+  public String getQuestionType() {
+    return questionType;
+  }
+
+  public void setQuestionType(String questionType) {
+    this.questionType = questionType;
+  }
 
   public String getQuestionTitle() {
     return questionTitle;
@@ -20,5 +32,13 @@ public class QuestionForm {
 
   public void setQuestionDescription(String questionDescription) {
     this.questionDescription = questionDescription;
+  }
+
+  public List<String> getOptions() {
+    return options;
+  }
+
+  public void setOptions(List<String> options) {
+    this.options = options;
   }
 }
