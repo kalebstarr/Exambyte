@@ -2,19 +2,19 @@ package com.soup.exambyte.models;
 
 public abstract class Answer {
 
-  private Long id;
+  private Integer id;
   private Question question;
 
-  public Answer(Long id, Question question) {
-    this.id = id;
+  public Answer(Question question) {
+    this.id = (int) (Math.random() * 100);
     this.question = question;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 

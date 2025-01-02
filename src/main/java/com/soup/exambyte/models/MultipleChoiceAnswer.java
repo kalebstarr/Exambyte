@@ -8,8 +8,8 @@ public class MultipleChoiceAnswer extends Answer {
 
   private final List<Integer> selectedOptions = new ArrayList<>();
 
-  public MultipleChoiceAnswer(Long id, Question question) {
-    super(id, question);
+  public MultipleChoiceAnswer(Integer id, Question question) {
+    super(question);
   }
 
   public List<Integer> getSelectedOptions() {

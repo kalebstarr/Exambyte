@@ -26,7 +26,7 @@ public class QuestionService {
    * @param testId  The id associated with the test.
    * @return        Returns a list of questions.
    */
-  public List<Question> getByTestId(int testId) {
+  public List<Question> getByTestId(Integer testId) {
     return switch (testId) {
       case 1 -> List.of(
           new TextQuestion("TQuestion 1", "TQuestion Description 1"),
@@ -61,7 +61,7 @@ public class QuestionService {
    * @param questionId  Index of the question in a list of questions associated with a test.
    * @return            Returns a question object.
    */
-  public Optional<Question> getByTestIdAndQuestionId(int testId, int questionId) {
+  public Optional<Question> getByTestIdAndQuestionId(Integer testId, Integer questionId) {
     List<Question> questions = getByTestId(testId);
 
     if (questions == null) {

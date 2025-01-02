@@ -4,8 +4,8 @@ public class TextAnswer extends  Answer {
 
   private String answer;
 
-  public TextAnswer(Long id, Question question) {
-    super(id, question);
+  public TextAnswer(Integer id, Question question) {
+    super(question);
   }
 
   public String getAnswer() {

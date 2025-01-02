@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Test {
 
-  private Long id;
+  private Integer id;
   private String testTitle;
   // TODO: Determine if descriptions are necessary for Tests and if they should be optional.
   private String testDescription;
@@ -21,7 +21,7 @@ public class Test {
    * @param testTitle title for a Test.
    * @param testDescription description for a Test
    */
-  public Test(long id, String testTitle, String testDescription) {
+  public Test(Integer id, String testTitle, String testDescription) {
     this.id = id;
     this.testTitle = testTitle;
     this.testDescription = testDescription;
@@ -29,16 +29,16 @@ public class Test {
 
   public Test(String testTitle, String testDescription) {
     // TODO: Change id creation
-    this.id = (long) (Math.random() * 10);
+    this.id = (int) (Math.random() * 10);
     this.testTitle = testTitle;
     this.testDescription = testDescription;
   }
 
-  public long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
