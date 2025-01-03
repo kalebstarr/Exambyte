@@ -6,6 +6,7 @@ package com.soup.exambyte.models;
 public abstract class Question {
 
   private Integer id;
+  private QuestionType questionType;
   private String questionTitle;
   private String questionDescription;
 
@@ -15,10 +16,19 @@ public abstract class Question {
    * @param questionTitle       The title of the question.
    * @param questionDescription The description of the question.
    */
-  public Question(String questionTitle, String questionDescription) {
+  public Question(QuestionType questionType, String questionTitle, String questionDescription) {
     this.id = (int) (Math.random() * 10);
+    this.questionType = questionType;
     this.questionTitle = questionTitle;
     this.questionDescription = questionDescription;
+  }
+
+  public QuestionType getQuestionType() {
+    return questionType;
+  }
+
+  public void setQuestionType(QuestionType questionType) {
+    this.questionType = questionType;
   }
 
   public String getQuestionTitle() {
@@ -45,3 +55,4 @@ public abstract class Question {
     this.id = id;
   }
 }
+

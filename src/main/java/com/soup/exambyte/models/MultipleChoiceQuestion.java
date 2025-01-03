@@ -19,12 +19,12 @@ public class MultipleChoiceQuestion extends Question {
    * @param questionDescription The description of a multiple choice question.
    */
   public MultipleChoiceQuestion(String questionTitle, String questionDescription) {
-    super(questionTitle, questionDescription);
+    super(QuestionType.MULTIPLE_CHOICE, questionTitle, questionDescription);
   }
 
   public MultipleChoiceQuestion(String questionTitle, String questionDescription,
       List<String> options, List<Integer> correctOptions) {
-    super(questionTitle, questionDescription);
+    super(QuestionType.MULTIPLE_CHOICE, questionTitle, questionDescription);
     this.options = options;
     this.correctOptionIndices = correctOptions;
   }
