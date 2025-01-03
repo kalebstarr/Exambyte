@@ -13,14 +13,12 @@
 <main>
   <div class="container">
     <div class="row">
-      <th:block th:switch="${questionType}">
-        <div th:case="MCQuestion">
-          MCQuestion
-        </div>
-        <div th:case="TextQuestoin">
-          TextQuestion
-        </div>
-      </th:block>
+      <div th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).MULTIPLE_CHOICE}">
+        <h2>MCQuestion</h2>
+      </div>
+      <div th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).TEXT}">
+        <h2>TextQuestion</h2>
+      </div>
     </div>
   </div>
 </main>

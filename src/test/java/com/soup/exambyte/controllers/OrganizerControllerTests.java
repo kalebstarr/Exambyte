@@ -325,10 +325,12 @@ public class OrganizerControllerTests {
               questionNumber)).
           andDo(print()).
           andExpect(model().attribute("title", equalTo("Exambyte - View Question"))).
-          andExpect(model().attribute("questionType", equalTo("MCQuestion"))).
           andExpect(model().attribute("question", equalTo(mcQuestion))).
           andExpect(status().isOk()).
           andReturn();
+
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("Multiple Choice");
     }
 
     @Test
@@ -344,10 +346,12 @@ public class OrganizerControllerTests {
               questionNumber)).
           andDo(print()).
           andExpect(model().attribute("title", equalTo("Exambyte - View Question"))).
-          andExpect(model().attribute("questionType", equalTo("TextQuestion"))).
           andExpect(model().attribute("question", equalTo(textQuestion))).
           andExpect(status().isOk()).
           andReturn();
+
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("Text");
     }
   }
 

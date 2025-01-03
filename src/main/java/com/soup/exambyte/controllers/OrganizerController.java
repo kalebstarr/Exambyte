@@ -5,6 +5,7 @@ import com.soup.exambyte.dto.QuestionForm;
 import com.soup.exambyte.dto.TestForm;
 import com.soup.exambyte.models.MultipleChoiceQuestion;
 import com.soup.exambyte.models.Question;
+import com.soup.exambyte.models.QuestionType;
 import com.soup.exambyte.models.Test;
 import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
@@ -134,12 +135,6 @@ public class OrganizerController {
 
     if (question.isEmpty()) {
       return "redirect:/admin/create-test";
-    }
-
-    if (question.get() instanceof MultipleChoiceQuestion) {
-      model.addAttribute("questionType", "MCQuestion");
-    } else {
-      model.addAttribute("questionType", "TextQuestion");
     }
 
     model.addAttribute("question", question.get());
