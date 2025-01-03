@@ -74,4 +74,9 @@ public class QuestionService {
       return Optional.empty();
     }
   }
+
+  // TODO: Add proper functionality
+  public Optional<Question> getById(Integer questionId) {
+    return Optional.of(new MultipleChoiceQuestion("Multiple Choice Question", "Description"));
+  }
 }

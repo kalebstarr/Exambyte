@@ -15,6 +15,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -119,6 +120,31 @@ public class OrganizerController {
     }
 
     return "redirect:/admin/create-test";
+  }
+
+  @GetMapping("/create-test/{questionNumber}")
+  @OrganizerOnly
+  public String viewQuestion(Model model, HttpSession session,
+      @PathVariable(value = "questionNumber") int questionNumber) {
+    model.addAttribute("title", "Exambyte - View Question");
+
+    // TODO: Add validation if question is in current session
+    Test test = (Test) session.getAttribute("currentTest");
+    Optional<Question> question = questionService.getById(questionNumber);
+
+    if (question.isEmpty()) {
+      return "redirect:/admin/create-test";
+    }
+
+    if (question.get() instanceof MultipleChoiceQuestion) {
+      model.addAttribute("questionType", "MCQuestion");
+    } else {
+      model.addAttribute("questionType", "TextQuestion");
+    }
+
+    model.addAttribute("question", question.get());
+
+    return "view-question";
   }
 
   @GetMapping("/create-test/create-question")
