@@ -316,7 +316,8 @@ public class OrganizerControllerTests {
     @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
     @DisplayName("A multiple choice question adds the attribute questionType with contents MCQuestion")
     void test_03() throws Exception {
-      MultipleChoiceQuestion mcQuestion = new MultipleChoiceQuestion("MCQuestion", "Description");
+      MultipleChoiceQuestion mcQuestion = new MultipleChoiceQuestion("MCQuestion",
+          "Extremely precise Description");
       when(questionService.getById(questionNumber)).thenReturn(Optional.of(
           mcQuestion
       ));
@@ -331,13 +332,16 @@ public class OrganizerControllerTests {
 
       String html = result.getResponse().getContentAsString();
       assertThat(html).contains("<option selected value=\"Multiple Choice\">");
+      assertThat(html).contains("MCQuestion");
+      assertThat(html).contains("Extremely precise Description");
     }
 
     @Test
     @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
     @DisplayName("A text question adds the attribute questionType with contents TextQuestion")
     void test_04() throws Exception {
-      TextQuestion textQuestion = new TextQuestion("TextQuestion", "Description");
+      TextQuestion textQuestion = new TextQuestion("TextQuestion",
+          "Very accurate Description");
       when(questionService.getById(questionNumber)).thenReturn(Optional.of(
           textQuestion
       ));
@@ -352,6 +356,8 @@ public class OrganizerControllerTests {
 
       String html = result.getResponse().getContentAsString();
       assertThat(html).contains("<option selected value=\"Text\">");
+      assertThat(html).contains("TextQuestion");
+      assertThat(html).contains("Very accurate Description");
     }
   }
 
