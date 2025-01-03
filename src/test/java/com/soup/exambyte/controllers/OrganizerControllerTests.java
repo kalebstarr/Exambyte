@@ -330,7 +330,7 @@ public class OrganizerControllerTests {
           andReturn();
 
       String html = result.getResponse().getContentAsString();
-      assertThat(html).contains("Multiple Choice");
+      assertThat(html).contains("<option selected value=\"Multiple Choice\">");
     }
 
     @Test
@@ -351,7 +351,7 @@ public class OrganizerControllerTests {
           andReturn();
 
       String html = result.getResponse().getContentAsString();
-      assertThat(html).contains("Text");
+      assertThat(html).contains("<option selected value=\"Text\">");
     }
   }
 
