@@ -77,6 +77,18 @@ public class QuestionService {
 
   // TODO: Add proper functionality
   public Optional<Question> getById(Integer questionId) {
-    return Optional.of(new MultipleChoiceQuestion("Multiple Choice Question", "Description"));
+    MultipleChoiceQuestion mcQuestion = new MultipleChoiceQuestion("Multiple Choice Question", "Description");
+    mcQuestion.addOption("This");
+    mcQuestion.addOption("That");
+    mcQuestion.addOption("This");
+    mcQuestion.addOption("That");
+    mcQuestion.addOption("This");
+    mcQuestion.addOption("That");
+    mcQuestion.addCorrectOptionIndex(1);
+    mcQuestion.addCorrectOptionIndex(3);
+    mcQuestion.addCorrectOptionIndex(5);
+    mcQuestion.addCorrectOptionIndex(6);
+
+    return Optional.of(mcQuestion);
   }
 }

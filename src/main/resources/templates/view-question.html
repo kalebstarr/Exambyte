@@ -98,6 +98,65 @@
                   ></textarea>
                 </div>
               </div>
+              <div
+                id="additionalContent"
+                th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).MULTIPLE_CHOICE}"
+              >
+                <hr />
+                <div id="optionContainer">
+                  <div
+                    class="row mb-3"
+                    th:each="option, iter : ${question.getOptions()}"
+                  >
+                    <label
+                      th:for="'option' + ${iter.count}"
+                      class="col-sm-2 col-form-label"
+                      th:text="'Option ' + ${iter.count}"
+                      >Option count</label
+                    >
+                    <div class="col-sm-1">
+                      <input
+                        th:if="${not #lists.contains(question.getCorrectOptionIndices(), iter.count)}"
+                        type="checkbox"
+                        class="btn-check"
+                        th:id="'correctOption' + ${iter.count}"
+                        name="correctOptions[]"
+                        autocomplete="off"
+                        th:value="${iter.count}"
+                      />
+                      <input
+                        th:if="${#lists.contains(question.getCorrectOptionIndices(), iter.count)}"
+                        type="checkbox"
+                        class="btn-check"
+                        th:id="'correctOption' + ${iter.count}"
+                        name="correctOptions[]"
+                        autocomplete="off"
+                        th:value="${iter.count}"
+                        checked
+                      />
+                      <label
+                        th:for="'correctOption' + ${iter.count}"
+                        class="btn btn-outline-primary"
+                        >Correct</label
+                      >
+                    </div>
+                    <div class="col-sm-9">
+                      <input
+                        type="text"
+                        class="form-control"
+                        th:id="'option' + ${iter.count}"
+                        name="options[]"
+                        th:value="${option}"
+                        th:placeholder="'Option ' + ${iter.count}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <a id="add-option" class="btn btn-success" href="#"
+                  >Add option</a
+                >
+              </div>
             </div>
           </div>
           <hr />

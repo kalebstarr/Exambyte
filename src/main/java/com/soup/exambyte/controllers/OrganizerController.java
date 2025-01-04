@@ -137,7 +137,13 @@ public class OrganizerController {
       return "redirect:/admin/create-test";
     }
 
-    model.addAttribute("question", question.get());
+    if (question.get().getQuestionType() == QuestionType.MULTIPLE_CHOICE) {
+      MultipleChoiceQuestion mcQuestion = (MultipleChoiceQuestion) question.get();
+      model.addAttribute("question", mcQuestion);
+    } else {
+      TextQuestion textQuestion = (TextQuestion) question.get();
+      model.addAttribute("question", textQuestion);
+    }
 
     return "view-question";
   }
