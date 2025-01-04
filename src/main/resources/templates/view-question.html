@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
+  <th:block th:insert="~{fragments :: head}" />
+  <body>
+    <th:block th:insert="~{fragments :: navigation}" />
+
+    <header>
+      <div class="container">
+        <h1>View Question</h1>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <form
+          method="post"
+          class="row g-3"
+          id="testForm"
+          th:action="@{/admin/create-test/view-question}"
+        >
+          <div class="question">
+            <div
+              id="questionContainer"
+              class="border border-secondary rounded p-3"
+            >
+              <div
+                class="row mb-3"
+                th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).MULTIPLE_CHOICE}"
+              >
+                <label
+                  for="questionTypeMultipleChoice"
+                  class="col-sm-2 col-form-label"
+                  >Type</label
+                >
+                <div class="col-sm-10">
+                  <select
+                    id="questionTypeMultipleChoice"
+                    name="questionType"
+                    class="form-select"
+                    required
+                  >
+                    <option value="">Choose...</option>
+                    <option value="Text">Text</option>
+                    <option selected value="Multiple Choice">
+                      Multiple Choice
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div
+                class="row mb-3"
+                th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).TEXT}"
+              >
+                <label for="questionTypeText" class="col-sm-2 col-form-label"
+                  >Type</label
+                >
+                <div class="col-sm-10">
+                  <select
+                    id="questionTypeText"
+                    name="questionType"
+                    class="form-select"
+                    required
+                  >
+                    <option value="">Choose...</option>
+                    <option selected value="Text">Text</option>
+                    <option value="Multiple Choice">Multiple Choice</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="questionTitle" class="col-sm-2 col-form-label"
+                  >Title</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="questionTitle"
+                    name="questionTitle"
+                    placeholder="Question Title"
+                    th:value="${question.questionTitle}"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="questionDescription" class="col-sm-2 col-form-label"
+                  >Description</label
+                >
+                <div class="col-sm-10">
+                  <textarea
+                    class="form-control"
+                    id="questionDescription"
+                    name="questionDescription"
+                    placeholder="Question Description"
+                    th:text="${question.questionDescription}"
+                    required
+                  ></textarea>
+                </div>
+              </div>
+              <div
+                id="additionalContent"
+                th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).MULTIPLE_CHOICE}"
+              >
+                <hr />
+                <div id="optionContainer">
+                  <div
+                    class="row mb-3"
+                    th:each="option, iter : ${question.getOptions()}"
+                  >
+                    <label
+                      th:for="'option' + ${iter.count}"
+                      class="col-sm-2 col-form-label"
+                      th:text="'Option ' + ${iter.count}"
+                      >Option count</label
+                    >
+                    <div class="col-sm-1">
+                      <input
+                        th:if="${not #lists.contains(question.getCorrectOptionIndices(), iter.count)}"
+                        type="checkbox"
+                        class="btn-check"
+                        th:id="'correctOption' + ${iter.count}"
+                        name="correctOptions[]"
+                        autocomplete="off"
+                        th:value="${iter.count}"
+                      />
+                      <input
+                        th:if="${#lists.contains(question.getCorrectOptionIndices(), iter.count)}"
+                        type="checkbox"
+                        class="btn-check"
+                        th:id="'correctOption' + ${iter.count}"
+                        name="correctOptions[]"
+                        autocomplete="off"
+                        th:value="${iter.count}"
+                        checked
+                      />
+                      <label
+                        th:for="'correctOption' + ${iter.count}"
+                        class="btn btn-outline-primary"
+                        >Correct</label
+                      >
+                    </div>
+                    <div class="col-sm-9">
+                      <input
+                        type="text"
+                        class="form-control"
+                        th:id="'option' + ${iter.count}"
+                        name="options[]"
+                        th:value="${option}"
+                        th:placeholder="'Option ' + ${iter.count}"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </main>
+
+    <th:block th:insert="~{fragments :: footer}" />
+
+    <th:block th:insert="~{fragments :: bootstrap-script}" />
+
+    <script type="text/javascript" src="/js/view-question.script.js"></script>
+  </body>
+</html>

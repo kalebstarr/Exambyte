@@ -13,6 +13,6 @@ public class TextQuestion extends Question {
    * @param questionDescription The description of a multiple choice question.
    */
   public TextQuestion(String questionTitle, String questionDescription) {
-    super(questionTitle, questionDescription);
+    super(QuestionType.TEXT, questionTitle, questionDescription);
   }
 }

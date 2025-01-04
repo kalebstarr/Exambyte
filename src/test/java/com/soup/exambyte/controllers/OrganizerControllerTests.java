@@ -280,6 +280,88 @@ public class OrganizerControllerTests {
   }
 
   @Nested
+  class ViewQuestionTests {
+
+    private final int questionNumber = 1;
+
+    @Test
+    @DisplayName("Admin page fails to load without user being authenticated")
+    void test_01() throws Exception {
+      MvcResult result = mockMvc.perform(get("/admin/create-test/{questionNumber}",
+              questionNumber)).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl())
+          .contains("oauth2/authorization/github");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("View Question redirects to '/admin/create-test' if no question is found")
+    void test_02() throws Exception {
+      when(questionService.getById(questionNumber)).thenReturn(Optional.empty());
+
+      MvcResult result = mockMvc.perform(get("/admin/create-test/{questionNumber}",
+              questionNumber)).
+          andDo(print()).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl()).
+          contains("/admin/create-test");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("A multiple choice question adds the attribute questionType with contents MCQuestion")
+    void test_03() throws Exception {
+      MultipleChoiceQuestion mcQuestion = new MultipleChoiceQuestion("MCQuestion",
+          "Extremely precise Description");
+      when(questionService.getById(questionNumber)).thenReturn(Optional.of(
+          mcQuestion
+      ));
+
+      MvcResult result = mockMvc.perform(get("/admin/create-test/{questionNumber}",
+              questionNumber)).
+          andDo(print()).
+          andExpect(model().attribute("title", equalTo("Exambyte - View Question"))).
+          andExpect(model().attribute("question", equalTo(mcQuestion))).
+          andExpect(status().isOk()).
+          andReturn();
+
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("<option selected value=\"Multiple Choice\">");
+      assertThat(html).contains("MCQuestion");
+      assertThat(html).contains("Extremely precise Description");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("A text question adds the attribute questionType with contents TextQuestion")
+    void test_04() throws Exception {
+      TextQuestion textQuestion = new TextQuestion("TextQuestion",
+          "Very accurate Description");
+      when(questionService.getById(questionNumber)).thenReturn(Optional.of(
+          textQuestion
+      ));
+
+      MvcResult result = mockMvc.perform(get("/admin/create-test/{questionNumber}",
+              questionNumber)).
+          andDo(print()).
+          andExpect(model().attribute("title", equalTo("Exambyte - View Question"))).
+          andExpect(model().attribute("question", equalTo(textQuestion))).
+          andExpect(status().isOk()).
+          andReturn();
+
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("<option selected value=\"Text\">");
+      assertThat(html).contains("TextQuestion");
+      assertThat(html).contains("Very accurate Description");
+    }
+  }
+
+  @Nested
   class AddQuestionViewTests {
 
     @Test
