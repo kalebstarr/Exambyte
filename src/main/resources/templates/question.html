@@ -17,12 +17,7 @@
             This is a sample description for a Question
           </h2>
         </div>
-        <form
-          method="post"
-          class="row g-3"
-          id="testForm"
-          th:action="@{/}"
-        >
+        <form method="post" class="row g-3" id="testForm" th:action="@{/}">
           <div class="question">
             <div
               class="border border-secondary rounded p-3"
@@ -37,13 +32,13 @@
                     <input
                       type="checkbox"
                       class="btn-check"
-                      th:id="'correctOption' + ${iter.count}"
-                      name="correctOptions[]"
+                      th:id="'selectedOption' + ${iter.count}"
+                      name="selectedOptions[]"
                       autocomplete="off"
                       th:value="${iter.count}"
                     />
                     <label
-                      th:for="'correctOption' + ${iter.count}"
+                      th:for="'selectedOption' + ${iter.count}"
                       class="btn btn-outline-primary"
                       >Correct</label
                     >
@@ -55,19 +50,22 @@
               </div>
             </div>
             <div
-                class="border border-secondary rounded p-3"
-                th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).TEXT}"
+              class="border border-secondary rounded p-3"
+              th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).TEXT}"
             >
-              <label for="questionDescription" class="col-sm-2 col-form-label"
+              <label
+                for="questionAnswer"
+                class="col-sm-2 col-form-label"
               ></label>
               <div class="col-sm-12">
                 <textarea
-                    class="form-control"
-                    id="questionDescription"
-                    name="questionDescription"
-                    placeholder="Question Description"
-                    required
+                  class="form-control"
+                  id="questionAnswer"
+                  name="questionAnswer"
+                  placeholder="Your Answer"
+                  required
                 ></textarea>
+              </div>
             </div>
           </div>
           <hr />
