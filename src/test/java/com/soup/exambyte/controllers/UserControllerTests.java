@@ -14,6 +14,7 @@ import com.soup.exambyte.config.MethodSecurityConfig;
 import com.soup.exambyte.config.RolesConfig;
 import com.soup.exambyte.config.SecurityConfig;
 import com.soup.exambyte.helper.WithMockOAuth2User;
+import com.soup.exambyte.models.MultipleChoiceQuestion;
 import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
@@ -210,13 +211,25 @@ public class UserControllerTests {
     @WithMockOAuth2User(login = "TestUser")
     @DisplayName("Question returns correct content according to path variables")
     void test_08() throws Exception {
-      mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
+      MultipleChoiceQuestion mcQuestion = new MultipleChoiceQuestion("MCQuestion",
+          "Description");
+      mcQuestion.addOption("Very detailed Option 1");
+      mcQuestion.addOption("Very un-detailed Option 2");
+
+      when(questionService.getByTestIdAndQuestionId(testNumber, questionNumber - 1)).
+          thenReturn(Optional.of(mcQuestion));
+
+      MvcResult result = mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
               testNumber,
               questionNumber)).
           andDo(print()).
-          andExpect(status().isOk());
+          andExpect(model().attribute("question", mcQuestion)).
+          andExpect(status().isOk()).
+          andReturn();
 
-      // TODO: Once questionView returns content update test to check for that returned content
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("Very detailed Option 1");
+      assertThat(html).contains("Very un-detailed Option 2");
     }
 
     @Test

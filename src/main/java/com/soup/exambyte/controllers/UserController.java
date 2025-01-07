@@ -1,7 +1,10 @@
 package com.soup.exambyte.controllers;
 
+import com.soup.exambyte.models.MultipleChoiceQuestion;
 import com.soup.exambyte.models.Question;
+import com.soup.exambyte.models.QuestionType;
 import com.soup.exambyte.models.Test;
+import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
 import java.util.List;
@@ -93,8 +96,15 @@ public class UserController {
       return "redirect:/test/" + testNumber;
     }
 
+    if (question.get().getQuestionType() == QuestionType.MULTIPLE_CHOICE) {
+      MultipleChoiceQuestion mcQuestion = (MultipleChoiceQuestion) question.get();
+      model.addAttribute("question", mcQuestion);
+    } else {
+      TextQuestion textQuestion = (TextQuestion) question.get();
+      model.addAttribute("question", textQuestion);
+    }
+
     model.addAttribute("test", test.get());
-    model.addAttribute("question", question.get());
 
     return "question";
   }
