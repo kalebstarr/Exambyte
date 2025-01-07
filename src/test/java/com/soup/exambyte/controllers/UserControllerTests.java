@@ -209,7 +209,7 @@ public class UserControllerTests {
 
     @Test
     @WithMockOAuth2User(login = "TestUser")
-    @DisplayName("Question returns correct content according to path variables")
+    @DisplayName("Question returns correct content with multiple choice question")
     void test_08() throws Exception {
       MultipleChoiceQuestion mcQuestion = new MultipleChoiceQuestion("MCQuestion",
           "Description");
@@ -230,6 +230,28 @@ public class UserControllerTests {
       String html = result.getResponse().getContentAsString();
       assertThat(html).contains("Very detailed Option 1");
       assertThat(html).contains("Very un-detailed Option 2");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser")
+    @DisplayName("Question returns correct content with text question")
+    void test_08_1() throws Exception {
+      TextQuestion textQuestion = new TextQuestion("MCQuestion",
+          "Description");
+
+      when(questionService.getByTestIdAndQuestionId(testNumber, questionNumber - 1)).
+          thenReturn(Optional.of(textQuestion));
+
+      MvcResult result = mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
+              testNumber,
+              questionNumber)).
+          andDo(print()).
+          andExpect(model().attribute("question", textQuestion)).
+          andExpect(status().isOk()).
+          andReturn();
+
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("textarea");
     }
 
     @Test
