@@ -50,15 +50,38 @@
                 ></textarea>
               </div>
             </div>
+            <div class="row mb-3">
+              <label for="startTime" class="col-sm-2 col-form-label"
+                >Start:</label
+              >
+              <div class="col-sm-4">
+                <input
+                  type="datetime-local"
+                  id="startTime"
+                  name="startTime"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <label for="dueTime" class="col-sm-2 col-form-label">Due:</label>
+              <div class="col-sm-4">
+                <input
+                  type="datetime-local"
+                  id="dueTime"
+                  name="dueTime"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
           </div>
 
           <hr />
 
           <div>
             <h2>Questions</h2>
-            <p th:if="${#lists.isEmpty(questions)}">No tests currently</p>
+            <p th:if="${#lists.isEmpty(questions)}">No questions currently</p>
             <div class="content-box" th:each="question : ${questions}">
-              <!-- TODO: Add functionality to link. Currently leads nowhere -->
               <a
                 class="btn btn-outline-primary w-100"
                 role="button"

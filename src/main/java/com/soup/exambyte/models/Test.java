@@ -36,6 +36,16 @@ public class Test {
     this.testDescription = testDescription;
   }
 
+  public Test(String testTitle, String testDescription,
+      LocalDateTime startTime, LocalDateTime dueTime) {
+    // TODO: Change id creation
+    this.id = (int) (Math.random() * 10);
+    this.testTitle = testTitle;
+    this.testDescription = testDescription;
+    this.startTime = startTime;
+    this.dueTime = dueTime;
+  }
+
   public Integer getId() {
     return id;
   }

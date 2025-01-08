@@ -108,6 +108,9 @@ public class OrganizerController {
     }
 
     if (submit != null) {
+      Test createTest = new Test(testForm.getTestTitle(), testForm.getTestDescription(),
+          testForm.getStartTime(), testForm.getDueTime());
+
       // TODO: Write test into database
       session.removeAttribute("currentTest");
 
