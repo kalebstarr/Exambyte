@@ -1,5 +1,6 @@
 package com.soup.exambyte.models;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +12,9 @@ public class Test {
 
   private Integer id;
   private String testTitle;
-  // TODO: Determine if descriptions are necessary for Tests and if they should be optional.
   private String testDescription;
+  private LocalDateTime startTime;
+  private LocalDateTime dueTime;
   private final List<Question> questions = new ArrayList<>();
 
   /**
@@ -56,6 +58,22 @@ public class Test {
 
   public void setTestDescription(String testDescription) {
     this.testDescription = testDescription;
+  }
+
+  public LocalDateTime getStartTime() {
+    return startTime;
+  }
+
+  public void setStartTime(LocalDateTime startTime) {
+    this.startTime = startTime;
+  }
+
+  public LocalDateTime getDueTime() {
+    return dueTime;
+  }
+
+  public void setDueTime(LocalDateTime dueTime) {
+    this.dueTime = dueTime;
   }
 
   public List<Question> getQuestions() {
