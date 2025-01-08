@@ -33,7 +33,7 @@
             />
             <div
               class="border border-secondary rounded p-3"
-              th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).MULTIPLE_CHOICE}"
+              th:if="${question.questionType.name() == 'MULTIPLE_CHOICE'}"
             >
               <div id="optionContainer">
                 <div
@@ -63,7 +63,7 @@
             </div>
             <div
               class="border border-secondary rounded p-3"
-              th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).TEXT}"
+              th:if="${question.questionType.name() == 'TEXT'}"
             >
               <label
                 for="questionAnswer"

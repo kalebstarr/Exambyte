@@ -25,7 +25,7 @@
             >
               <div
                 class="row mb-3"
-                th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).MULTIPLE_CHOICE}"
+                th:if="${question.questionType.name() == 'MULTIPLE_CHOICE'}"
               >
                 <label
                   for="questionTypeMultipleChoice"
@@ -49,7 +49,7 @@
               </div>
               <div
                 class="row mb-3"
-                th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).TEXT}"
+                th:if="${question.questionType.name() == 'TEXT'}"
               >
                 <label for="questionTypeText" class="col-sm-2 col-form-label"
                   >Type</label
@@ -100,7 +100,7 @@
               </div>
               <div
                 id="additionalContent"
-                th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).MULTIPLE_CHOICE}"
+                th:if="${question.questionType.name() == 'MULTIPLE_CHOICE'}"
               >
                 <hr />
                 <div id="optionContainer">
