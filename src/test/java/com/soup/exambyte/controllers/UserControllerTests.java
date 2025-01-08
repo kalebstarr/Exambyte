@@ -3,7 +3,9 @@ package com.soup.exambyte.controllers;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -276,6 +278,42 @@ public class UserControllerTests {
           andDo(print()).
           andExpect(status().is3xxRedirection()).
           andExpect(redirectedUrl("/"));
+    }
+  }
+
+  @Nested
+  class SubmitAnswerTests {
+
+    private final int testNumber = 2;
+    private final int questionNumber = 2;
+
+    @Test
+    @DisplayName("Question page fails to post without user being authenticated")
+    void test_01() throws Exception {
+      MvcResult result = mockMvc.perform(post("/test/{testNumber}/question/{questionNumber}",
+              testNumber,
+              questionNumber).
+              with(csrf())).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl())
+          .contains("oauth2/authorization/github");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser")
+    @DisplayName("Question page post redirects to '/test/' + testNumber")
+    void test_02() throws Exception {
+      MvcResult result = mockMvc.perform(post("/test/{testNumber}/question",
+              testNumber,
+              questionNumber).
+              with(csrf())).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl())
+          .contains("/test/" + testNumber);
     }
   }
 }

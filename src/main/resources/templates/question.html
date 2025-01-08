@@ -17,8 +17,20 @@
             This is a sample description for a Question
           </h2>
         </div>
-        <form method="post" class="row g-3" id="testForm" th:action="@{/}">
+        <form
+          method="post"
+          class="row g-3"
+          id="testForm"
+          th:action="@{'/test/' + ${testNumber} + '/question'}"
+        >
           <div class="question">
+            <label for="questionType"></label>
+            <input
+              id="questionType"
+              name="questionType"
+              hidden="hidden"
+              th:value="${question.questionType}"
+            />
             <div
               class="border border-secondary rounded p-3"
               th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).MULTIPLE_CHOICE}"
