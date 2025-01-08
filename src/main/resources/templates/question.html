@@ -17,6 +17,72 @@
             This is a sample description for a Question
           </h2>
         </div>
+        <form
+          method="post"
+          class="row g-3"
+          id="testForm"
+          th:action="@{'/test/' + ${testNumber} + '/question'}"
+        >
+          <div class="question">
+            <label for="questionType"></label>
+            <input
+              id="questionType"
+              name="questionType"
+              hidden="hidden"
+              th:value="${question.questionType}"
+            />
+            <div
+              class="border border-secondary rounded p-3"
+              th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).MULTIPLE_CHOICE}"
+            >
+              <div id="optionContainer">
+                <div
+                  class="row mb-3"
+                  th:each="option, iter : ${question.getOptions()}"
+                >
+                  <div class="col-sm-2">
+                    <input
+                      type="checkbox"
+                      class="btn-check"
+                      th:id="'selectedOption' + ${iter.count}"
+                      name="selectedOptions[]"
+                      autocomplete="off"
+                      th:value="${iter.count}"
+                    />
+                    <label
+                      th:for="'selectedOption' + ${iter.count}"
+                      class="btn btn-outline-primary"
+                      >Correct</label
+                    >
+                  </div>
+                  <div class="col-sm-10">
+                    <p th:text="${option}"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="border border-secondary rounded p-3"
+              th:if="${question.questionType == T(com.soup.exambyte.models.QuestionType).TEXT}"
+            >
+              <label
+                for="questionAnswer"
+                class="col-sm-2 col-form-label"
+              ></label>
+              <div class="col-sm-12">
+                <textarea
+                  class="form-control"
+                  id="questionAnswer"
+                  name="questionAnswer"
+                  placeholder="Your Answer"
+                  required
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
       </div>
     </main>
 

@@ -3,7 +3,9 @@ package com.soup.exambyte.controllers;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -14,6 +16,7 @@ import com.soup.exambyte.config.MethodSecurityConfig;
 import com.soup.exambyte.config.RolesConfig;
 import com.soup.exambyte.config.SecurityConfig;
 import com.soup.exambyte.helper.WithMockOAuth2User;
+import com.soup.exambyte.models.MultipleChoiceQuestion;
 import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
@@ -208,15 +211,49 @@ public class UserControllerTests {
 
     @Test
     @WithMockOAuth2User(login = "TestUser")
-    @DisplayName("Question returns correct content according to path variables")
+    @DisplayName("Question returns correct content with multiple choice question")
     void test_08() throws Exception {
-      mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
+      MultipleChoiceQuestion mcQuestion = new MultipleChoiceQuestion("MCQuestion",
+          "Description");
+      mcQuestion.addOption("Very detailed Option 1");
+      mcQuestion.addOption("Very un-detailed Option 2");
+
+      when(questionService.getByTestIdAndQuestionId(testNumber, questionNumber - 1)).
+          thenReturn(Optional.of(mcQuestion));
+
+      MvcResult result = mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
               testNumber,
               questionNumber)).
           andDo(print()).
-          andExpect(status().isOk());
+          andExpect(model().attribute("question", mcQuestion)).
+          andExpect(status().isOk()).
+          andReturn();
 
-      // TODO: Once questionView returns content update test to check for that returned content
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("Very detailed Option 1");
+      assertThat(html).contains("Very un-detailed Option 2");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser")
+    @DisplayName("Question returns correct content with text question")
+    void test_08_1() throws Exception {
+      TextQuestion textQuestion = new TextQuestion("MCQuestion",
+          "Description");
+
+      when(questionService.getByTestIdAndQuestionId(testNumber, questionNumber - 1)).
+          thenReturn(Optional.of(textQuestion));
+
+      MvcResult result = mockMvc.perform(get("/test/{testNumber}/question/{questionNumber}",
+              testNumber,
+              questionNumber)).
+          andDo(print()).
+          andExpect(model().attribute("question", textQuestion)).
+          andExpect(status().isOk()).
+          andReturn();
+
+      String html = result.getResponse().getContentAsString();
+      assertThat(html).contains("textarea");
     }
 
     @Test
@@ -241,6 +278,42 @@ public class UserControllerTests {
           andDo(print()).
           andExpect(status().is3xxRedirection()).
           andExpect(redirectedUrl("/"));
+    }
+  }
+
+  @Nested
+  class SubmitAnswerTests {
+
+    private final int testNumber = 2;
+    private final int questionNumber = 2;
+
+    @Test
+    @DisplayName("Question page fails to post without user being authenticated")
+    void test_01() throws Exception {
+      MvcResult result = mockMvc.perform(post("/test/{testNumber}/question/{questionNumber}",
+              testNumber,
+              questionNumber).
+              with(csrf())).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl())
+          .contains("oauth2/authorization/github");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser")
+    @DisplayName("Question page post redirects to '/test/' + testNumber")
+    void test_02() throws Exception {
+      MvcResult result = mockMvc.perform(post("/test/{testNumber}/question",
+              testNumber,
+              questionNumber).
+              with(csrf())).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl())
+          .contains("/test/" + testNumber);
     }
   }
 }

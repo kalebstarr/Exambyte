@@ -1,7 +1,12 @@
 package com.soup.exambyte.controllers;
 
+import com.soup.exambyte.dto.AnswerForm;
+import com.soup.exambyte.models.MultipleChoiceAnswer;
+import com.soup.exambyte.models.MultipleChoiceQuestion;
 import com.soup.exambyte.models.Question;
+import com.soup.exambyte.models.QuestionType;
 import com.soup.exambyte.models.Test;
+import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
 import java.util.List;
@@ -10,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 /**
@@ -93,9 +99,26 @@ public class UserController {
       return "redirect:/test/" + testNumber;
     }
 
+    if (question.get().getQuestionType() == QuestionType.MULTIPLE_CHOICE) {
+      MultipleChoiceQuestion mcQuestion = (MultipleChoiceQuestion) question.get();
+      model.addAttribute("question", mcQuestion);
+    } else {
+      TextQuestion textQuestion = (TextQuestion) question.get();
+      model.addAttribute("question", textQuestion);
+    }
+
     model.addAttribute("test", test.get());
-    model.addAttribute("question", question.get());
 
     return "question";
+  }
+
+  @PostMapping("/test/{testNumber}/question")
+  public String submitAnswer(Model model,
+      @PathVariable(value = "testNumber") int testNumber,
+      AnswerForm answerForm) {
+
+    // TODO: Save answer here
+
+    return "redirect:/test/" + testNumber;
   }
 }

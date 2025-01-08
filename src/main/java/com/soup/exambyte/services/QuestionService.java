@@ -27,10 +27,15 @@ public class QuestionService {
    * @return        Returns a list of questions.
    */
   public List<Question> getByTestId(Integer testId) {
+    MultipleChoiceQuestion mcQuestion = new MultipleChoiceQuestion("Sample MCQuestion",
+        "Description");
+    mcQuestion.addOptionAndStatus("Option", true);
+
     return switch (testId) {
       case 1 -> List.of(
           new TextQuestion("TQuestion 1", "TQuestion Description 1"),
-          new MultipleChoiceQuestion("MCQuestion 1", "MCQuestion Description 1")
+          new MultipleChoiceQuestion("MCQuestion 1", "MCQuestion Description 1"),
+          mcQuestion
       );
       case 2 -> List.of(
           new TextQuestion("TQuestion 2", "TQuestion Description 2"),
