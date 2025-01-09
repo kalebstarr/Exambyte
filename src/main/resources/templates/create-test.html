@@ -99,7 +99,7 @@
               type="submit"
               class="btn btn-success"
               name="add-question"
-              value="Add Question"
+              th:formaction="@{/admin/create-test/add-question}"
               formnovalidate
             >
               Add Question
@@ -110,7 +110,7 @@
             type="submit"
             class="btn btn-primary"
             name="submit"
-            value="Submit"
+            th:formaction="@{/admin/create-test/submit}"
           >
             Submit
           </button>
@@ -118,7 +118,7 @@
             type="submit"
             class="btn btn-danger"
             name="cancel"
-            value="Cancel"
+            th:formaction="@{/admin/create-test/cancel}"
             formnovalidate
           >
             Cancel
