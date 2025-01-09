@@ -1,9 +1,11 @@
 package com.soup.exambyte.dto;
 
+import com.soup.exambyte.config.StartTimeBeforeDueTime;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 
+@StartTimeBeforeDueTime
 public class TestForm {
 
   @NotNull(message = "Test title cannot be empty")
