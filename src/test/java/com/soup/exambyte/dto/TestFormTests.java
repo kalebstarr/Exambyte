@@ -43,4 +43,28 @@ public class TestFormTests {
 
     assertThat(violations.size()).isEqualTo(1);
   }
+
+  @Test
+  @DisplayName("Violations occur when start time is null")
+  void test_03() {
+    TestForm testForm = new TestForm();
+    testForm.setTestTitle("Test Title");
+    testForm.setDueTime(LocalDateTime.now());
+
+    Set<ConstraintViolation<TestForm>> violations = validator.validate(testForm);
+
+    assertThat(violations.size()).isEqualTo(1);
+  }
+
+  @Test
+  @DisplayName("Violations occur when start time is null")
+  void test_04() {
+    TestForm testForm = new TestForm();
+    testForm.setTestTitle("Test Title");
+    testForm.setStartTime(LocalDateTime.now());
+
+    Set<ConstraintViolation<TestForm>> violations = validator.validate(testForm);
+
+    assertThat(violations.size()).isEqualTo(1);
+  }
 }

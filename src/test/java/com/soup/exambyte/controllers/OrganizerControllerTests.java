@@ -165,7 +165,10 @@ public class OrganizerControllerTests {
     void test_02() throws Exception {
       MvcResult result = mockMvc.perform(post("/admin/create-test").
               with(csrf()).
-              param("add-question", "Add Question")).
+              param("add-question", "Add Question").
+              param("testTitle", "Test Title").
+              param("startTime", String.valueOf(LocalDateTime.now())).
+              param("dueTime", String.valueOf(LocalDateTime.now().plusHours(2)))).
           andDo(print()).
           andExpect(status().is3xxRedirection()).
           andReturn();
@@ -180,7 +183,10 @@ public class OrganizerControllerTests {
     void test_03() throws Exception {
       MvcResult result = mockMvc.perform(post("/admin/create-test").
               with(csrf()).
-              param("add-question", "Add Question")).
+              param("add-question", "Add Question").
+              param("testTitle", "Test Title").
+              param("startTime", String.valueOf(LocalDateTime.now())).
+              param("dueTime", String.valueOf(LocalDateTime.now().plusHours(2)))).
           andExpect(status().is3xxRedirection()).
           andReturn();
 
@@ -207,8 +213,11 @@ public class OrganizerControllerTests {
 
       MvcResult result = mockMvc.perform(post("/admin/create-test").
               with(csrf()).
+              session(mockHttpSession).
               param("add-question", "Add Question").
-              session(mockHttpSession)).
+              param("testTitle", "Test Title").
+              param("startTime", String.valueOf(LocalDateTime.now())).
+              param("dueTime", String.valueOf(LocalDateTime.now().plusHours(2)))).
           andExpect(status().is3xxRedirection()).
           andReturn();
 
@@ -234,8 +243,8 @@ public class OrganizerControllerTests {
               with(csrf()).
               param("submit", "Submit").
               param("testTitle", "Test Title").
-              param("startTime", String.valueOf(LocalDateTime.of(2025, 1, 1, 13, 11))).
-              param("dueTime", String.valueOf(LocalDateTime.of(2025, 1, 1, 14, 12))).
+              param("startTime", String.valueOf(LocalDateTime.now())).
+              param("dueTime", String.valueOf(LocalDateTime.now().plusHours(2))).
               session(mockHttpSession)).
           andExpect(status().is3xxRedirection()).
           andReturn();
