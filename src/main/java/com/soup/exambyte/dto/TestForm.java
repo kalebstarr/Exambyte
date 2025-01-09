@@ -1,10 +1,23 @@
 package com.soup.exambyte.dto;
 
+import com.soup.exambyte.config.StartTimeBeforeDueTime;
+import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
+
+@StartTimeBeforeDueTime
 public class TestForm {
 
+  @NotNull(message = "Test title cannot be empty")
   private String testTitle;
+
   private String testDescription;
+
+  @NotNull(message = "Start time cannot be empty")
+  private LocalDateTime startTime;
+
+  @NotNull(message = "Due time cannot be empty")
+  private LocalDateTime dueTime;
 
   public String getTestTitle() {
     return testTitle;
@@ -20,5 +33,21 @@ public class TestForm {
 
   public void setTestDescription(String testDescription) {
     this.testDescription = testDescription;
+  }
+
+  public LocalDateTime getStartTime() {
+    return startTime;
+  }
+
+  public void setStartTime(LocalDateTime startTime) {
+    this.startTime = startTime;
+  }
+
+  public LocalDateTime getDueTime() {
+    return dueTime;
+  }
+
+  public void setDueTime(LocalDateTime dueTime) {
+    this.dueTime = dueTime;
   }
 }
