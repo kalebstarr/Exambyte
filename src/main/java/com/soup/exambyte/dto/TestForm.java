@@ -1,13 +1,20 @@
 package com.soup.exambyte.dto;
 
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 
 public class TestForm {
 
+  @NotNull(message = "Test title cannot be empty")
   private String testTitle;
+
   private String testDescription;
+
+  @NotNull(message = "Start time cannot be empty")
   private LocalDateTime startTime;
+
+  @NotNull(message = "Due time cannot be empty")
   private LocalDateTime dueTime;
 
   public String getTestTitle() {

@@ -20,7 +20,9 @@ import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -231,6 +233,9 @@ public class OrganizerControllerTests {
       MvcResult result = mockMvc.perform(post("/admin/create-test").
               with(csrf()).
               param("submit", "Submit").
+              param("testTitle", "Test Title").
+              param("startTime", String.valueOf(LocalDateTime.of(2025, 1, 1, 13, 11))).
+              param("dueTime", String.valueOf(LocalDateTime.of(2025, 1, 1, 14, 12))).
               session(mockHttpSession)).
           andExpect(status().is3xxRedirection()).
           andReturn();
@@ -243,6 +248,28 @@ public class OrganizerControllerTests {
       assertThat(currentTest).isEqualTo(null);
       assertThat(result.getResponse().getRedirectedUrl()).
           contains("/admin");
+    }
+
+    @Test
+    @WithMockOAuth2User(login = "TestUser", roles = "ORGANIZER")
+    @DisplayName("create-test page fails with submit request param and invalid testForm")
+    void test_05_1() throws Exception {
+      com.soup.exambyte.models.Test sampleTest = mock(com.soup.exambyte.models.Test.class);
+      MockHttpSession mockHttpSession = new MockHttpSession();
+      mockHttpSession.setAttribute("currentTest", sampleTest);
+
+      MvcResult result = mockMvc.perform(post("/admin/create-test").
+              with(csrf()).
+              param("submit", "Submit").
+              param("testTitle", "").
+              param("startTime", "").
+              param("dueTime", "").
+              session(mockHttpSession)).
+          andExpect(status().is3xxRedirection()).
+          andReturn();
+
+      assertThat(result.getResponse().getRedirectedUrl()).
+          contains("/admin/create-test");
     }
 
     @Test

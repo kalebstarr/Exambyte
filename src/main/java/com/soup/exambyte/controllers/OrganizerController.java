@@ -11,10 +11,12 @@ import com.soup.exambyte.models.TextQuestion;
 import com.soup.exambyte.services.QuestionService;
 import com.soup.exambyte.services.TestService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -89,7 +91,7 @@ public class OrganizerController {
    */
   @PostMapping("/create-test")
   @OrganizerOnly
-  public String createTest(HttpSession session, TestForm testForm,
+  public String createTest(HttpSession session, @Valid TestForm testForm, BindingResult bindingResult,
       @RequestParam(value = "add-question", required = false) String addQuestion,
       @RequestParam(value = "submit", required = false) String submit,
       @RequestParam(value = "cancel", required = false) String cancel) {
@@ -108,6 +110,10 @@ public class OrganizerController {
     }
 
     if (submit != null) {
+      if (bindingResult.hasErrors()) {
+        return "redirect:/admin/create-test";
+      }
+
       Test createTest = new Test(testForm.getTestTitle(), testForm.getTestDescription(),
           testForm.getStartTime(), testForm.getDueTime());
 
